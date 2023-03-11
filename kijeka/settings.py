@@ -26,7 +26,7 @@ SECRET_KEY = '3qz424r6^spn(i%eg1w38l(-z#2fzgf6e70es@y#+tvl5e93gg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*","jagratpruthatek-congenial-succotash-x6xq766p7x7f96pv-3001.preview.app.github.dev","jagratpruthatek-congenial-succotash-x6xq766p7x7f96pv-3000.preview.app.github.dev"]
+ALLOWED_HOSTS = ["*","jagratpruthatek-congenial-succotash-x6xq766p7x7f96pv-3001.preview.app.github.dev","jagratpruthatek-congenial-succotash-x6xq766p7x7f96pv-3000.preview.app.github.dev","kijeka.com"]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 
