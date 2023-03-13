@@ -20,5 +20,6 @@ urlpatterns = [
     path("product-details/<str:link>/", TemplateView.as_view(template_name='index.html')),
     path("product-compare/", TemplateView.as_view(template_name='index.html')),
     path("privacy-policy/", TemplateView.as_view(template_name='index.html')),
+    path("terms-and-condition/", TemplateView.as_view(template_name='index.html')),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

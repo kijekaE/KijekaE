@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .models import Product, Category, SubCategory, Clients,YoutubeVideo, Quote,contactUs
+from .models import Product, Category, SubCategory, Clients,YoutubeVideo, Quote,contactUs,Ip
 from django.core.files.storage import FileSystemStorage
 import random
 import pandas as pd
@@ -9,6 +9,14 @@ import os
 import requests
 from random import randint
 from difflib import SequenceMatcher
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -245,8 +253,19 @@ def getCategoryProducts(request):
             category = Category.objects.filter(categoryLink=category).first()
             productList = Product.objects.filter(category=category).all()
         productArr = []
+        ip = get_client_ip(request)
         for product in productList:
-            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1]])
+            liked = False
+            if ip:
+                if Ip.objects.filter(ip=ip).first() == None:
+                    ipNew = Ip()
+                    ipNew.ip = ip
+                    ipNew.save()
+                else:
+                    ipNew = Ip.objects.filter(ip=ip).first()
+                    if product.likes.filter(id=ipNew.id).first() != None:
+                        liked = True
+            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1],liked])
         if len(productArr) == 0:
             return HttpResponse(json.dumps({'data': [["","",""]]}), content_type='application/json')
         return HttpResponse(json.dumps({'data': productArr}), content_type='application/json')
@@ -283,13 +302,24 @@ def homeCategoryList(request):
     if request.method == 'GET':
         categoryList = Category.objects.all()
         categoryArr = []
+        ip = get_client_ip(request)
         for category in categoryList:
             temp = {}
             products = Product.objects.filter(category=category).all()
             products = products[:5]
             temp["products"]  = []
             for product in products:
-                temp["products"].append([product.productName,"/media/images/"+(product.images.url).split("/")[-1],str(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>","")])
+                liked = False
+                if ip:
+                    if Ip.objects.filter(ip=ip).first() == None:
+                        ipNew = Ip()
+                        ipNew.ip = ip
+                        ipNew.save()
+                    else:
+                        ipNew = Ip.objects.filter(ip=ip).first()
+                        if product.likes.filter(id=ipNew.id).first() != None:
+                            liked = True
+                temp["products"].append([product.productName,"/media/images/"+(product.images.url).split("/")[-1],str(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),liked])
             temp["categoryName"] = category.categoryName
             temp["categoryLink"] = category.categoryLink
             temp["discription"] = category.discription
@@ -374,17 +404,18 @@ def quoteList(request):
             return HttpResponse(json.dumps({'data': quoteArr}), content_type='application/json')
     return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
 
-def contactUs(request):
-    if request.method == 'GET':
-        name = request.GET.get('cname')
-        email = request.GET.get('email')
-        phoneNo = request.GET.get('phoneNo')
-        country = request.GET.get('country')
-        companyName = request.GET.get('companyName')
-        query = request.GET.get('query')   
-        address = request.GET.get('address')
-        isSuscribed = request.GET.get('isSuscribed')
-        
+@csrf_exempt
+def contactus(request):
+    if request.method == 'POST':
+        name = request.POST.get('name') 
+        email = request.POST.get('email') 
+        phoneNo = request.POST.get('phoneNo') 
+        country = request.POST.get('country') 
+        companyName = request.POST.get('companyName') 
+        query = request.POST.get('query') 
+        address = request.POST.get('address') 
+        isSuscribed = request.POST.get('isSuscribed') 
+        print(name,email,phoneNo,country,companyName,query,address,isSuscribed)
         contactus = contactUs()
         contactus.name = name
         contactus.email = email
@@ -393,14 +424,69 @@ def contactUs(request):
         contactus.companyName = companyName
         contactus.query = query
         contactus.address = address
+        if isSuscribed == "on":
+            isSuscribed = True
+        else:
+            isSuscribed = False
         contactus.isSuscribed = isSuscribed
         contactus.save()
+        return HttpResponse(json.dumps({'data': 'success'}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
 
-        #print(name,email,phoneNo,country,companyName,query,address)
-        #redirect('homeCategoryList')
-    
-    
-    return 
+@csrf_exempt
+def searchDatabase(request):
+    if request.method == 'GET':
+        searchQuery = request.GET.get('searchQuery')
+        searchQuery = searchQuery.lower()
+        result = {"products":[],"categories":[]}
+        # search searchQuery in Product and append in result
+        productsName = Product.objects.filter(productName__contains=searchQuery).all()
+        productsDiscription = Product.objects.filter(description__contains=searchQuery).all()
+        for product in productsName:
+            result["products"].append([product.productName,product.category.categoryName,(product.images.url).split("/")[-1]])
+        for product in productsDiscription:
+            result["products"].append([product.productName,product.category.categoryLink,(product.images.url).split("/")[-1]])
+        result = {"products":result["products"][:5],"categories":[]}
+        categoriesName = Category.objects.filter(categoryName__contains=searchQuery).all()
+        categoriesDiscription = Category.objects.filter(discription__contains=searchQuery).all()
+        for category in categoriesName:
+            result["categories"].append([category.categoryName,category.categoryLink])
+        for category in categoriesDiscription:
+            result["categories"].append([category.categoryName,category.categoryLink])
+        result = {"products":result["products"],"categories":result["categories"][:5]}
+        return HttpResponse(json.dumps({'data': result}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
+
+@csrf_exempt
+def likeProduct(request):
+    if request.method == 'GET':
+        productName = request.GET.get('title')
+        product = Product.objects.filter(productName = productName).first()
+        if product == None:
+            ip = get_client_ip(request)
+            if ip is not None:
+                if Ip.objects.filter(ip=ip).first() == None:
+                    ipNew = Ip()
+                    ipNew.ip = ip
+                    ipNew.save()
+                ipNew = Ip.objects.filter(ip=ip).first()
+                if product.likes.filter(id=ipNew.id).first() != None:
+                    product.likes.remove(Ip.objects.filter(ip=ip).first())
+                    product.save()
+                    likes = product.total_likes()
+                    return HttpResponse(json.dumps({'msg': "success","data":likes}), content_type='application/json')
+                else:
+                    product.likes.add(Ip.objects.filter(ip=ip).first())
+                    product.save()
+                    likes = product.total_likes()
+                    return HttpResponse(json.dumps({'msg': "success","data":likes}), content_type='application/json')
+                return HttpResponse(json.dumps({'msg': "success"}), content_type='application/json')
+            else:
+                return HttpResponse(json.dumps({'error': "failed"}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'error': "failed"}), content_type='application/json')
+    return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
+
 
 @csrf_exempt
 def dataAdder(request):
@@ -3110,8 +3196,4 @@ def quotesAdder(request):
         newQuote.category = Category.objects.filter(categoryName="Oil Pumps, Meters & Acces.").first()
         newQuote.save()
     return HttpResponse(json.dumps({'msg': 'data added successfully.'}), content_type='application/json')
-
-@csrf_exempt
-def contactUs(request):
-    pass
 

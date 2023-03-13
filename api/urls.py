@@ -20,6 +20,8 @@ urlpatterns = [
     path('dataAdder/', views.dataAdder, name='dataAdder'),
     path('quotesAdder/', views.quotesAdder, name='quotesAdder'),
     path('dataUpdater/', views.dataUpdater, name='dataUpdater'),
-    path('contactUs/',views.contactUs,name="contactUs"),
+    path('contactus/',views.contactus,name="contactus"),
     path('chatbot/',views.chatbot,name="chatbot"),
+    path('searchDatabase/',views.searchDatabase,name="searchDatabase"),
+    path('likeProduct/',views.likeProduct,name="likeProduct"),
 ]

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product, Clients, YoutubeVideo, Quote , contactUs
+from .models import Category, SubCategory, Product, Clients, YoutubeVideo, Quote , contactUs,Ip
 from import_export.admin import ExportActionMixin
 
 
@@ -12,8 +12,8 @@ class SubCategoryAdmin(ExportActionMixin, admin.ModelAdmin):
     search_fields = ['subCategoryName', 'category']
 
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('productName', 'category', 'modelNo', 'isOnHome', 'isUploaded')
-    search_fields = ['productName', 'category__categoryName',]
+    list_display = ('id','productName', 'category', 'modelNo', 'isOnHome', 'isUploaded')
+    search_fields = ['id','productName', 'category__categoryName',]
 
 class ClientAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('name', 'image','link')
@@ -31,6 +31,10 @@ class contactUsAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('name', 'email', 'query')
     search_fields = ['name', 'email', 'query']
 
+class IpAdmin(ExportActionMixin, admin.ModelAdmin):
+    list_display = ('ip', 'date')
+    search_fields = ['ip', 'date']
+
 # class ReviewAdmin(ExportActionMixin, admin.ModelAdmin):
 #     list_display = ('client', 'product', 'review', 'rating')
 #     search_fields = ['client', 'product', 'review', 'rating']
@@ -42,6 +46,7 @@ admin.site.register(Clients, ClientAdmin)
 admin.site.register(YoutubeVideo, YoutubeVideoAdmin)
 admin.site.register(Quote, QuoteAdmin)
 admin.site.register(contactUs,contactUsAdmin)
+admin.site.register(Ip,IpAdmin)
 
 # admin.site.register(Review, ReviewAdmin)
 

@@ -18,6 +18,13 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.subCategoryName
 
+class Ip(models.Model):
+    ip = models.CharField(max_length=500, default='', blank=True, null=True)
+    date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.ip
+
 class Product(models.Model):
     productName = models.CharField(max_length=500)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -26,9 +33,14 @@ class Product(models.Model):
     description = models.TextField()
     images = models.ImageField(upload_to='images/')
     isUploaded = models.BooleanField(default=False)
+    productLink = models.CharField(max_length=500, default='', blank=True, null=True)
+    likes = models.ManyToManyField(Ip, blank=True, related_name='likes')
 
     def __str__(self):
         return self.productName
+    
+    def total_likes(self):
+        return self.likes.count()
 
 class Footer(models.Model):
     mobile1Label = models.CharField(max_length=500, default='', blank=True, null=True)
