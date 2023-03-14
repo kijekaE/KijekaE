@@ -3196,3 +3196,17 @@ def quotesAdder(request):
         newQuote.save()
     return HttpResponse(json.dumps({'msg': 'data added successfully.'}), content_type='application/json')
 
+@csrf_exempt
+def linkUpdater(request):
+    # read allProductDetail.json
+    with open('allProductDetail.json') as json_file:
+        data = json.load(json_file)
+    for key,item in data.items():
+        print(key)
+        for i in item:
+            product = Product.objects.filter(productName=i["name"]).first()
+            if product:
+                linkTemp = i["link"].replace("https://www.kijeka.com/product/","").replace("/","")
+                product.productLink = linkTemp
+                product.save()
+                print(i["name"],linkTemp)
