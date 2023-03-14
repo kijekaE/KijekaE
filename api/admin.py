@@ -12,8 +12,9 @@ class SubCategoryAdmin(ExportActionMixin, admin.ModelAdmin):
     search_fields = ['subCategoryName', 'category']
 
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('id','productName', 'category', 'modelNo', 'isOnHome', 'isUploaded')
-    search_fields = ['id','productName', 'category__categoryName',]
+    list_display = ('id','productName','productLink', 'category')
+    search_fields = ['id','productName','productLink', 'category__categoryName']
+    list_editable = ('productName','productLink')
 
 class ClientAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('name', 'image','link')

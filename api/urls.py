@@ -24,5 +24,4 @@ urlpatterns = [
     path('chatbot/',views.chatbot,name="chatbot"),
     path('searchDatabase/',views.searchDatabase,name="searchDatabase"),
     path('likeProduct/',views.likeProduct,name="likeProduct"),
-    path('linkUpdater/',views.linkUpdater,name="linkUpdater"),
 ]

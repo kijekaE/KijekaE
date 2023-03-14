@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<body>
+		<p>This example displays a simple translate button, with no text.</p>
+		<h1>This example displays a simple translate button, with no text.</h1>
+		<h2>This example displays a simple translate button, with no text.</h2>
+		<h1>This example displays a simple translate button, with no text.</h1>
+		<script>
+            let originalTags = []
+            let FrenchTags = []
+            let HindiTags = []
+            let GujaratiTags = []
+            let ChineseTags = []
+            let ArabicTags = []
+            
+            function translate(language){
+                var myHeaders = new Headers();
+                myHeaders.append("accept", "*/*");
+                myHeaders.append("accept-language", "en-US,en;q=0.9");
+                myHeaders.append("origin", "https://www.w3schools.com");
+                myHeaders.append("referer", "https://www.w3schools.com/");
+                myHeaders.append("content-type", "application/x-www-form-urlencoded");
+                myHeaders.append("sec-ch-ua", "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"");
+                myHeaders.append("sec-ch-ua-mobile", "?0");
+                myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
+                myHeaders.append("sec-fetch-dest", "empty");
+                myHeaders.append("sec-fetch-mode", "cors");
+                myHeaders.append("sec-fetch-site", "cross-site");
+                myHeaders.append("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36");
+                
+                var urlencoded = new URLSearchParams();
+                for (let i = 0; i < originalTags.length; i++) {
+                    urlencoded.append("q", originalTags[i].innerText);
+                }
+                
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: urlencoded,
+                    redirect: 'follow'
+                };
+                
+                return fetch("https://translate.googleapis.com/translate_a/t?anno=3&client=te&format=html&v=1.0&key&logld=vTE_20230312&sl=en&tl="+language+"&tc=1&sr=1&tk=708818.904525", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        console.log(result)
+                        return result
+                    })
+                    .catch(error => console.log('error', error));
+            }
+
+			function ConvertAllTags(){
+                var pArr = document.getElementsByTagName("p")
+                var aArr = document.getElementsByTagName("a")
+                var divArr = document.getElementsByTagName("div")
+                var h1Arr = document.getElementsByTagName("h1")
+                var h2Arr = document.getElementsByTagName("h2")
+                var h3Arr = document.getElementsByTagName("h3")
+                var h4Arr = document.getElementsByTagName("h4")
+                var h5Arr = document.getElementsByTagName("h5")
+                var h6Arr = document.getElementsByTagName("h6")
+                let languages =  ["en" , "fr" , "hi" , "gu" , "zh-CN" , "ar"]
+                for (let i = 0; i < pArr.length; i++) {
+                    originalTags.push(pArr[i])
+                }
+                for (let i = 0; i < aArr.length; i++) {
+                    originalTags.push(aArr[i])
+                }
+                for (let i = 0; i < divArr.length; i++) {
+                    originalTags.push(divArr[i])
+                }
+                for (let i = 0; i < h1Arr.length; i++) {
+                    originalTags.push(h1Arr[i])
+                }
+                for (let i = 0; i < h2Arr.length; i++) {
+                    originalTags.push(h2Arr[i])
+                }
+                for (let i = 0; i < h3Arr.length; i++) {
+                    originalTags.push(h3Arr[i])
+                }
+                for (let i = 0; i < h4Arr.length; i++) {
+                    originalTags.push(h4Arr[i])
+                }
+                for (let i = 0; i < h5Arr.length; i++) {
+                    originalTags.push(h5Arr[i])
+                }
+                for (let i = 0; i < h6Arr.length; i++) {
+                    originalTags.push(h6Arr[i])
+                }
+                
+                let FrenchTexts =  translate(languages[1])
+                let HindiTexts =  translate(languages[2])
+                let GujaratiTexts =  translate(languages[3])
+                let ChineseTexts =  translate(languages[4])
+                let ArabicTexts =  translate(languages[5])
+
+                for (let i = 0; i < originalTags.length; i++) {
+                    FrenchTags.push(originalTags[i])
+                    HindiTags.push(originalTags[i])
+                    GujaratiTags.push(originalTags[i])
+                    ChineseTags.push(originalTags[i])
+                    ArabicTags.push(originalTags[i])
+                }
+
+                setTimeout(() => {
+                    for (let i = 0; i < originalTags.length; i++) {
+                        FrenchTags[i].innerText = FrenchTexts[i]
+                        HindiTags[i].innerText = HindiTexts[i]
+                        GujaratiTags[i].innerText = GujaratiTexts[i]
+                        ChineseTags[i].innerText = ChineseTexts[i]
+                        ArabicTags[i].innerText = ArabicTexts[i]
+                    }
+                }, 5000);
+			}
+			ConvertAllTags()
+			
+		</script>
+	</body>
+</html>

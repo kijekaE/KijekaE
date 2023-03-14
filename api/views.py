@@ -265,11 +265,27 @@ def getCategoryProducts(request):
                     ipNew = Ip.objects.filter(ip=ip).first()
                     if product.likes.filter(id=ipNew.id).first() != None:
                         liked = True
-            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1],liked,product.productLink])
+            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1],liked,product.productLink,product.modelNo])
         if len(productArr) == 0:
             return HttpResponse(json.dumps({'data': [["","",""]]}), content_type='application/json')
         return HttpResponse(json.dumps({'data': productArr}), content_type='application/json')
     return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
+
+@csrf_exempt
+def translateData(request):
+    if request.method == 'GET':
+        language = request.GET.get('language')
+        data = request.GET.get('data')
+        url = "https://translate.googleapis.com/translate_a/t?anno=3&client=te&format=html&v=1.0&key&logld=vTE_20230312&sl=en&tl="+language+"&tc=1&sr=1&tk=533754.997732"
+        payload=data
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        response = requests.request("POST", url, headers=headers, data=payload)
+        print(response.text)
+        return HttpResponse(json.dumps({'data': response.t}), content_type='application/json')
+    
+
 
 @csrf_exempt
 def getProductDetail(request):
@@ -282,6 +298,7 @@ def getProductDetail(request):
             'description': str(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),
             'image': "/media/images/"+(product.images.url).split("/")[-1],
             'category': product.category.categoryName,
+            'categoryLink': product.category.categoryLink
         }
         return HttpResponse(json.dumps({'data': data}), content_type='application/json')
     return HttpResponse(json.dumps({'error': 'You were not supposed be here.'}), content_type='application/json')
@@ -442,9 +459,9 @@ def searchDatabase(request):
         productsName = Product.objects.filter(productName__contains=searchQuery).all()
         productsDiscription = Product.objects.filter(description__contains=searchQuery).all()
         for product in productsName:
-            result["products"].append([product.productName,product.category.categoryName,(product.images.url).split("/")[-1]])
+            result["products"].append([product.productName,product.category.categoryName,(product.images.url).split("/")[-1],product.productLink])
         for product in productsDiscription:
-            result["products"].append([product.productName,product.category.categoryLink,(product.images.url).split("/")[-1]])
+            result["products"].append([product.productName,product.category.categoryLink,(product.images.url).split("/")[-1],product.productLink])
         result = {"products":result["products"][:5],"categories":[]}
         categoriesName = Category.objects.filter(categoryName__contains=searchQuery).all()
         categoriesDiscription = Category.objects.filter(discription__contains=searchQuery).all()
@@ -3196,17 +3213,4 @@ def quotesAdder(request):
         newQuote.save()
     return HttpResponse(json.dumps({'msg': 'data added successfully.'}), content_type='application/json')
 
-@csrf_exempt
-def linkUpdater(request):
-    # read allProductDetail.json
-    with open('allProductDetail.json') as json_file:
-        data = json.load(json_file)
-    for key,item in data.items():
-        print(key)
-        for i in item:
-            product = Product.objects.filter(productName=i["name"]).first()
-            if product:
-                linkTemp = i["link"].replace("https://www.kijeka.com/product/","").replace("/","")
-                product.productLink = linkTemp
-                product.save()
-                print(i["name"],linkTemp)
+
