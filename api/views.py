@@ -265,7 +265,7 @@ def getCategoryProducts(request):
                     ipNew = Ip.objects.filter(ip=ip).first()
                     if product.likes.filter(id=ipNew.id).first() != None:
                         liked = True
-            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1],liked])
+            productArr.append([product.productName,(product.description).replace("<!DOCTYPE html><html><head><title></title></head><body>","").replace("</body></html>",""),"/media/images/"+(product.images.url).split("/")[-1],liked,product.productLink])
         if len(productArr) == 0:
             return HttpResponse(json.dumps({'data': [["","",""]]}), content_type='application/json')
         return HttpResponse(json.dumps({'data': productArr}), content_type='application/json')
@@ -275,8 +275,7 @@ def getCategoryProducts(request):
 def getProductDetail(request):
     if request.method == 'GET':
         productName = request.GET.get('productName')
-        productName = productName.replace("-"," ")
-        product = Product.objects.filter(productName=productName).first()
+        product = Product.objects.filter(productLink=productName).first()
         data = {
             'productName': product.productName,
             'modelNo': product.modelNo,
