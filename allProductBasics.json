@@ -1,0 +1,824 @@
+{
+    "data": [
+        {
+            "name": "Aluminium Aerial Work Platform (Double Mast)",
+            "link": "aluminium-aerial-work-platform-double-mast"
+        },
+        {
+            "name": "Aluminium Aerial Work Platform (Single Mast)",
+            "link": "aluminium-aerial-work-platform-single-mast"
+        },
+        {
+            "name": "Aluminum Mobile Staircase Ladder",
+            "link": "aluminum-mobile-staircase-ladder"
+        },
+        {
+            "name": "Aluminum Square Tower  Ladders",
+            "link": "aluminum-square-tower-ladders"
+        },
+        {
+            "name": "Combination Ladders",
+            "link": "combination-ladders"
+        },
+        {
+            "name": "Magic Pole Ladders",
+            "link": "magic-pole-ladder"
+        },
+        {
+            "name": "Polymer Wheeled Extension Ladders",
+            "link": "polymer-wheeled-extension-ladders"
+        },
+        {
+            "name": "Recess Platform Ladder",
+            "link": "recess-platform-ladder"
+        },
+        {
+            "name": "Road Star Tower Ladders",
+            "link": "road-star-tower-ladders"
+        },
+        {
+            "name": "Self- Supported Extension Ladder (Mobile Folding)",
+            "link": "self-supported-extension-ladder_mobile-folding"
+        },
+        {
+            "name": "Self- Supported Movable Folding Ladder",
+            "link": "self-supported-movable-folding-ladder"
+        },
+        {
+            "name": "Self- Supporting Extension Ladders",
+            "link": "self-supporting-extension-ladders"
+        },
+        {
+            "name": "Self-Supporting Ladders",
+            "link": "self-supporting-ladders"
+        },
+        {
+            "name": "Step Ladders",
+            "link": "step-ladders"
+        },
+        {
+            "name": "Til table Tower Ladders",
+            "link": "til-table-tower-ladders"
+        },
+        {
+            "name": "Trestle Flat Step Ladder",
+            "link": "trestle-flat-step-ladder"
+        },
+        {
+            "name": "Trestle Round Step Ladder",
+            "link": "trestle-round-step-ladder"
+        },
+        {
+            "name": "Trolley Step Ladder",
+            "link": "trolley-step-ladder"
+        },
+        {
+            "name": "Wall Supporting Extension Ladders",
+            "link": "wall-supporting-extension-ladders"
+        },
+        {
+            "name": "Wall Supporting Ladders Flat Step",
+            "link": "wall-supporting-ladders"
+        },
+        {
+            "name": "Wall Supporting Ladders Round Step",
+            "link": "wall-supporting-ladders-2"
+        },
+        {
+            "name": "AODD Pumps (Air Operated Double Diaphragm Pump)",
+            "link": "air-operated-double-diaphragm-aodd-pumps"
+        },
+        {
+            "name": "Dosing-Metering Pumps & Dosing System",
+            "link": "dosing-metering-pumps-dosing-system"
+        },
+        {
+            "name": "External Rotary Gear Pumps",
+            "link": "external-rotary-gear-pumps"
+        },
+        {
+            "name": "Hand Flow Regulator",
+            "link": "hand-flow-regulator"
+        },
+        {
+            "name": "High Pressure Plunger Pumps",
+            "link": "high-pressure-plunger-pumps"
+        },
+        {
+            "name": "High Viscous Liquid Transfer Drum Pump",
+            "link": "high-viscous-liquid-transfer-drum-pump"
+        },
+        {
+            "name": "Low Viscous Liquid Transfer Drum Pump",
+            "link": "low-viscous-liquid-transfer-drum-pump"
+        },
+        {
+            "name": "Nylon Chemical Pump",
+            "link": "nylon-chemical-pump"
+        },
+        {
+            "name": "Plastic Lever Pump",
+            "link": "plastic-lever-pump"
+        },
+        {
+            "name": "Polyethylene Siphon Pumps",
+            "link": "polyethylene-siphon-pumps"
+        },
+        {
+            "name": "Polypropylene Rotary Barrel Pump",
+            "link": "polypropylene-rotary-barrel-pump"
+        },
+        {
+            "name": "SS Corrugated Flexible Hoses",
+            "link": "ss-corrugated-flexible-hoses"
+        },
+        {
+            "name": "Stainless Steel 316 Electric IBC Container Pump",
+            "link": "stainless-steel-316-electric-ibc-container-pump"
+        },
+        {
+            "name": "Stainless Steel Air Operated Piston Drum Pump",
+            "link": "stainless-steel-air-operated-piston-drum-pump"
+        },
+        {
+            "name": "Stainless Steel Piston Type Drum Pump",
+            "link": "stainless-steel-piston-type-drum-pump"
+        },
+        {
+            "name": "Stainless Steel Rotary Drum Pump",
+            "link": "stainless-steel-rotary-drum-pump"
+        },
+        {
+            "name": "Chain Hoist",
+            "link": "chain-hoist"
+        },
+        {
+            "name": "Electric Wire Rope Hoist",
+            "link": "electric-wire-rope-hoist"
+        },
+        {
+            "name": "EOT Crane",
+            "link": "eot-crane"
+        },
+        {
+            "name": "Extendable Forklift Jib",
+            "link": "extendable-forklift-jib"
+        },
+        {
+            "name": "Forklift Coil Rams & Lifters",
+            "link": "forklift-coil-rams-lifters"
+        },
+        {
+            "name": "Forklift Fork Extensions",
+            "link": "forklift-fork-extensions"
+        },
+        {
+            "name": "Forklift Hook Attachement",
+            "link": "forklift-hook-attachement"
+        },
+        {
+            "name": "Forklift Mounted Battery Lifting Beam",
+            "link": "forklift-mounted-battery-lifting-beam"
+        },
+        {
+            "name": "Gear Trolley",
+            "link": "gear-trolley"
+        },
+        {
+            "name": "Jib Crane",
+            "link": "jib-crane"
+        },
+        {
+            "name": "Lifting Tackles, Slings, Wire Rope",
+            "link": "lifting-tackles-slings-wire-rope"
+        },
+        {
+            "name": "Low Profile Forklift Jib",
+            "link": "low-profile-forklift-jib"
+        },
+        {
+            "name": "Mobile Floor Crane",
+            "link": "mobile-floor-cranes"
+        },
+        {
+            "name": "Portable Gantry Crane",
+            "link": "portable-gantry-crane"
+        },
+        {
+            "name": "Dock Levellers",
+            "link": "dock-levellers"
+        },
+        {
+            "name": "Dock Ramp (Portable Steel Yard Ramp)",
+            "link": "dock-ramp-portable-steel-yard-ramp"
+        },
+        {
+            "name": "Below Hook/Hoist Mounted Drum Lifter",
+            "link": "below-hook-hoist-mounted-drum-lifter"
+        },
+        {
+            "name": "Chain Drum Lifter",
+            "link": "chain-drum-lifter"
+        },
+        {
+            "name": "Counterbalance Fully Powered Drum Lifter Tilter",
+            "link": "counterbalance-fully-powered-drum-lifter-tilter"
+        },
+        {
+            "name": "Drainer 4 Wheel Drum Truck",
+            "link": "drainer-4-wheel-drum-truck"
+        },
+        {
+            "name": "Drum Dollies",
+            "link": "drum-dollies-2"
+        },
+        {
+            "name": "Drum Lever Bar/Drum Positioning Tool",
+            "link": "drum-lever-bar"
+        },
+        {
+            "name": "Drum Palletizer that Pour Drum",
+            "link": "drum-palletizer-that-pour"
+        },
+        {
+            "name": "Drum Storage Rack (Fix)",
+            "link": "drum-storage-rack-fix"
+        },
+        {
+            "name": "Drum Tilter Trolleys",
+            "link": "drum-tilter-trolleys"
+        },
+        {
+            "name": "Drum Trolley (Multipurpose)",
+            "link": "drum-trolley-multipurpose"
+        },
+        {
+            "name": "Drum Trolley 3 Wheelers",
+            "link": "drum-truck-3-wheel"
+        },
+        {
+            "name": "Drum Trolley 3 Wheelers (PW3-New)",
+            "link": "drum_trolley"
+        },
+        {
+            "name": "Drum Trolley 3 Wheelers (PW3)",
+            "link": "drum-trolley-3-wheelers-pw3"
+        },
+        {
+            "name": "Drum Trolley 4 Wheelers (PW4)",
+            "link": "drum-truck-4-wheel"
+        },
+        {
+            "name": "Drum Trolley-3 Wheel (Open Top Drum)",
+            "link": "drumtrolley-open-top-drum"
+        },
+        {
+            "name": "Drum Truck- 3 Wheeler (New)",
+            "link": "drum-trolley"
+        },
+        {
+            "name": "Drum Wrench",
+            "link": "drum-wrench"
+        },
+        {
+            "name": "Fork Lift / Crane Mounded DrumRotator",
+            "link": "fork-lift-crane-mounded-drumrotator"
+        },
+        {
+            "name": "Fork Lift Drum Dumper/ Drum Dispenser",
+            "link": "fork-lift-drum-dumper-drum-dispenser"
+        },
+        {
+            "name": "Fork Lift Drum Grabs",
+            "link": "fork-lift-drum-grabs"
+        },
+        {
+            "name": "Fork Lift Drum Grabs (For 4-Drums)",
+            "link": "fork-lift-drum-grabs-for-4-drums"
+        },
+        {
+            "name": "Fully Powered Drum Lifter Tilter",
+            "link": "fully-powered-drum-lifter-tilter"
+        },
+        {
+            "name": "Hydraulic Drum Palletizer-Advance",
+            "link": "hydraulic-drum-palletizer-advance-2"
+        },
+        {
+            "name": "Hydraulic Drum Truck",
+            "link": "hydraulic-drum-truck"
+        },
+        {
+            "name": "Low-Profile Drum Caddies",
+            "link": "low-profile-drum-caddy"
+        },
+        {
+            "name": "Manual Drum Lifter Tilter",
+            "link": "manual-drum-lifter-tilter-2"
+        },
+        {
+            "name": "Manual Drum Upender",
+            "link": "manual-drum-upender"
+        },
+        {
+            "name": "Overhead Drum Lifter",
+            "link": "overhead-drum-lifter"
+        },
+        {
+            "name": "Portable Drum Storage Racks",
+            "link": "portable-drum-storage-racks"
+        },
+        {
+            "name": "Portable Drum Storage Racks (For 2 Drums)",
+            "link": "portable-drum-storage-racks-for-2-drums"
+        },
+        {
+            "name": "Safety Drum Faucets/ Tap",
+            "link": "safety-drum-faucets-tap"
+        },
+        {
+            "name": "Semi Powered Drum Lifter Tilter (With Manual Rotating)",
+            "link": "semi-powered-drum-lifter-tilter-with-manual-rotating"
+        },
+        {
+            "name": "Semi Powered Drum Lifter Tilter(With Power Rotating)",
+            "link": "semi-powered-drum-lifter-tilterwith-power-rotating"
+        },
+        {
+            "name": "Stand for Drum Storage Rack",
+            "link": "stand-for-drum-storage-rack"
+        },
+        {
+            "name": "Drum Stirrer",
+            "link": "drum-stirrer_old"
+        },
+        {
+            "name": "Continuous Duty Electric Fuel Pump",
+            "link": "continuous-duty-electric-fuel-pump"
+        },
+        {
+            "name": "Electric Fuel Pump",
+            "link": "electric-fuel-pump"
+        },
+        {
+            "name": "Fuel Control Nozzle",
+            "link": "fuel-control-nozzle"
+        },
+        {
+            "name": "Hi-Flow Rotary Barrel Pump",
+            "link": "hi-flow-rotary-barrel-pump"
+        },
+        {
+            "name": "Mechanical Diesel Meter",
+            "link": "mechanical-diesel-meter"
+        },
+        {
+            "name": "Rotary Fuel Pump",
+            "link": "rotary-fuel-pump"
+        },
+        {
+            "name": "Die Loader/Roller Lift Table",
+            "link": "die-loaderroller-lift-table"
+        },
+        {
+            "name": "Lifting Table- Pit Mounted",
+            "link": "lifting-table-pit-mounted"
+        },
+        {
+            "name": "Manual Scissor Lift Table",
+            "link": "manual-scissor-lift-table"
+        },
+        {
+            "name": "Mobile Scissor Lift Platform- Up to 12 Meter",
+            "link": "mobile-scissor-lift-platform-up-to-12-meter"
+        },
+        {
+            "name": "Mobile Scissor Lift Platform- Up to 16 Meter",
+            "link": "mobile-scissor-lift"
+        },
+        {
+            "name": "Self-Propelled Scissor Lift Platform- Up to 14 Meter",
+            "link": "self-propelled-scissor-lift-platform-up-to-14-meter"
+        },
+        {
+            "name": "Glue Pad Insect Catcher Machine",
+            "link": "glue-pad-insect-catcher-machine"
+        },
+        {
+            "name": "Insect Killer Machine",
+            "link": "insect-killer-machine"
+        },
+        {
+            "name": "2 Wheeler Generator Trolley",
+            "link": "2-wheeler-generator-trolley"
+        },
+        {
+            "name": "3 Sided Platform Trucks-(SlatType Sides)",
+            "link": "3-sided-platform-trucks-slattype-sides"
+        },
+        {
+            "name": "3 Sided Platform Trucks-(Steel Sides)",
+            "link": "3-sided-platform-trucks-steel-sides"
+        },
+        {
+            "name": "3 Sided Platform Trucks-(Tubular Sides)",
+            "link": "3-sided-platform-trucks-tubular-sides"
+        },
+        {
+            "name": "6 Bucket Wheel Barrows",
+            "link": "6-bucket-wheel-barrows"
+        },
+        {
+            "name": "Bales Trolley",
+            "link": "bales-trolley"
+        },
+        {
+            "name": "Bar Cradle Trucks",
+            "link": "bar-cradle-trucks"
+        },
+        {
+            "name": "Bin Cart",
+            "link": "bin-cart"
+        },
+        {
+            "name": "Brick and Tile Wheel Barrow",
+            "link": "brick-and-tile-wheel-barrow"
+        },
+        {
+            "name": "Bucket Tippers",
+            "link": "can-tippers"
+        },
+        {
+            "name": "Cart for Water Bottles",
+            "link": "cart-for-water-bottles"
+        },
+        {
+            "name": "Chair Trolley",
+            "link": "chair-trolley"
+        },
+        {
+            "name": "Cylinder Lift",
+            "link": "cylinder-lift"
+        },
+        {
+            "name": "Cylinder Lifting Cradle",
+            "link": "cylinder-lifting-cradle"
+        },
+        {
+            "name": "Cylinder Pallet",
+            "link": "cylinder-pallet"
+        },
+        {
+            "name": "Cylinder Pallet Cage",
+            "link": "cylinder-pallet-cage"
+        },
+        {
+            "name": "Double Gas Cylinder Cart (2-Wheeler)",
+            "link": "gas-cylinder-trucks-for-2-cylinder"
+        },
+        {
+            "name": "Double Gas Cylinder Cart (4-Wheeler)",
+            "link": "gas-cylinder-trucks-for-2-cylinder-2"
+        },
+        {
+            "name": "Economy Cylinder Carts",
+            "link": "gas-cylinder-cart"
+        },
+        {
+            "name": "Elevated Steel Box Cart",
+            "link": "elevated-steel-box-cart"
+        },
+        {
+            "name": "Gas Cylinder Forklift Storage & Transport Pallet",
+            "link": "gas-cylinder-forklift-storage-transport-pallet"
+        },
+        {
+            "name": "Gas Cylinder Trucks (For 6 Or 4 Cylinder)",
+            "link": "gas-cylinder-trucks-for-6-or-4-cylinder"
+        },
+        {
+            "name": "Hand Carts",
+            "link": "hand-trucks-2"
+        },
+        {
+            "name": "Hospital Oxygen Cylinder Trolley",
+            "link": "hospital-oxygen-cylinder-trolley"
+        },
+        {
+            "name": "Mattress Trolley",
+            "link": "mattress-trolley"
+        },
+        {
+            "name": "MIG Welding Machine Cart",
+            "link": "mig-welding-machine-cart"
+        },
+        {
+            "name": "Milk Crate Trolley",
+            "link": "milk-crate-trolley"
+        },
+        {
+            "name": "Nitrogen Gas Cylinder Cart (4-Wheeler)",
+            "link": "nitrogen-gas-cylinder-cart-4-wheeler"
+        },
+        {
+            "name": "Oxygen-LPG Double Gas Cylinder Trolley",
+            "link": "oxygen-lpg-double-gas-cylinder-trolley"
+        },
+        {
+            "name": "Panel Cart",
+            "link": "panel-cart"
+        },
+        {
+            "name": "Plastic Container Trolley",
+            "link": "plastic-container-trolley"
+        },
+        {
+            "name": "Plastic Platform Trucks- With Foldable Handle",
+            "link": "plastic-platform-trucks-with-foldable-handle"
+        },
+        {
+            "name": "Platform Truck- With Pneumatic Wheels",
+            "link": "platform-truck-with-pneumatic-wheels"
+        },
+        {
+            "name": "Platform Truck- With Pneumatic Wheels (12\u201d Steel Sheet Sider)",
+            "link": "platform-truck-with-pneumatic-wheels-12-steel-sheet-sider-2"
+        },
+        {
+            "name": "Platform Truck- With Pneumatic Wheels (Cage Type)",
+            "link": "platform-truck-with-pneumatic-wheels-cage-type"
+        },
+        {
+            "name": "Platform Trucks",
+            "link": "platform-trucks-2"
+        },
+        {
+            "name": "Platform Trucks- For Plastic Crates Handling",
+            "link": "platform-trucks-for-plastic-crates-handling"
+        },
+        {
+            "name": "Platform Trucks- Lower Side with Turn Table Device",
+            "link": "platform-trucks-lower-side-with-turn-table-device"
+        },
+        {
+            "name": "Platform Trucks- Towable Trailers",
+            "link": "platform-trucks-towable-trailers"
+        },
+        {
+            "name": "Platform Trucks- With Adjustable Working Platform",
+            "link": "platform-trucks-with-adjustable-working-platform"
+        },
+        {
+            "name": "Platform Trucks- With Dual Handle",
+            "link": "platform-trucks-with-dual-handle"
+        },
+        {
+            "name": "Platform Trucks- With Turn Table Device",
+            "link": "platform-trucks-with-turn-table-device"
+        },
+        {
+            "name": "Platform Trucks-With Deep Lip Platform",
+            "link": "platform-trucks-with-deep-lip-platform"
+        },
+        {
+            "name": "Portable Shelf Truck",
+            "link": "portable-shelf-truck"
+        },
+        {
+            "name": "Propane Gas Cylinder Cart",
+            "link": "propane-gas-cylinder-cart"
+        },
+        {
+            "name": "Shelf Cart (Tray Trolley)",
+            "link": "shelf-cart-tray-trolley"
+        },
+        {
+            "name": "Single Cylinder Lifting Trolley",
+            "link": "single-cylinder-lifting-trolley"
+        },
+        {
+            "name": "Single Gas Cylinder Cart (2-Wheeler)",
+            "link": "single-gas-cylinder-cart"
+        },
+        {
+            "name": "Single Gas Cylinder Cart (3-Wheeler)",
+            "link": "3-wheeler-single-gas-cylinder-cart"
+        },
+        {
+            "name": "Single Gas Cylinder Cart (4-Wheeler)",
+            "link": "single-gas-cylinder-cart-new"
+        },
+        {
+            "name": "Stair Climbing Hand Trucks",
+            "link": "stair-climbing-hand-trucks"
+        },
+        {
+            "name": "Steel Box Cart",
+            "link": "steel-box-cart"
+        },
+        {
+            "name": "Steel Box Cart- 4 Side Solid Sider",
+            "link": "steel-box-cart-4-side-solid-sider"
+        },
+        {
+            "name": "Steel Box Cart- With Hinged Lid",
+            "link": "steel-box-cart-with-hinged-lid"
+        },
+        {
+            "name": "Tool Cart",
+            "link": "tool-cart"
+        },
+        {
+            "name": "Traffic Cone Cart",
+            "link": "traffic-cone-cart"
+        },
+        {
+            "name": "Wheel Barrows",
+            "link": "wheel-barrows"
+        },
+        {
+            "name": "Wire Mesh Trolley",
+            "link": "wire-mesh-trolley"
+        },
+        {
+            "name": "Wire Reel Cart",
+            "link": "wire-reel-cart"
+        },
+        {
+            "name": "Self-propelled Stock Order Picker",
+            "link": "self-propelled-stock-order-picker"
+        },
+        {
+            "name": "Semi-Electric Order Picker Trucks",
+            "link": "semi-electric-order-picker-trucks"
+        },
+        {
+            "name": "Air Operated Oil Ratio Drum Pump",
+            "link": "product-air-operated-oil-ratio-drum-pump"
+        },
+        {
+            "name": "Electric Oil Transfer Pump",
+            "link": "electric-oil-transfer-pump-2"
+        },
+        {
+            "name": "Lever Action Drum Pump",
+            "link": "lever-action-drum-pump"
+        },
+        {
+            "name": "Oil Control Gun with Electronic Meter",
+            "link": "oil-control-gun-with-electronic-meter"
+        },
+        {
+            "name": "Oil Control Gun with Mechanical Meter",
+            "link": "oil-control-gun-with-mechanical-meter"
+        },
+        {
+            "name": "Plastic Funnels",
+            "link": "plastic-funnels"
+        },
+        {
+            "name": "Rotary Action Drum Pump",
+            "link": "rotary-action-drum-pump"
+        },
+        {
+            "name": "All-Terrain Pallet Truck",
+            "link": "rough-terrain-pallet-truck"
+        },
+        {
+            "name": "Customized Pallet Truck",
+            "link": "customized-pallet-truck"
+        },
+        {
+            "name": "Electric High Lift Pallet Truck",
+            "link": "electric-high-lift-pallet-truck"
+        },
+        {
+            "name": "Heavy Duty Pallet Truck (5000Kgs)",
+            "link": "heavy-duty-pallet-truck-5000kgs"
+        },
+        {
+            "name": "High Lift Pallet Truck",
+            "link": "product-high-lift-pallet-truck"
+        },
+        {
+            "name": "Hybrid Pallet Truck",
+            "link": "hybrid-pallet-truck"
+        },
+        {
+            "name": "Hydraulic Hand Pallet Truck",
+            "link": "hydraulic-hand-pallet-trucks"
+        },
+        {
+            "name": "Mini Battery Operated Pallet Truck",
+            "link": "mini-battery-operated-pallet-truck"
+        },
+        {
+            "name": "Pallet Truck-with Cargo Backrest",
+            "link": "pallet-truck-with-cargo-backrest-2"
+        },
+        {
+            "name": "Pallet Trucks Spares",
+            "link": "pallet-trucks-spares"
+        },
+        {
+            "name": "Roll Lift Pallet Truck",
+            "link": "roll-lift-pallet-truck"
+        },
+        {
+            "name": "Stainless Steel Pallet Truck",
+            "link": "stainless-steel-pallet-truck"
+        },
+        {
+            "name": "Weighing Scale Pallet Truck",
+            "link": "weighing-scale-pallet-truck"
+        },
+        {
+            "name": "Polyurethane Rebonding Service",
+            "link": "polyurethane-rebonding-service"
+        },
+        {
+            "name": "Polyurethane Traction/Drive Wheels",
+            "link": "polyurethane-tractiondrive-wheels"
+        },
+        {
+            "name": "Polyurethane Wheels",
+            "link": "polyurethane-wheels"
+        },
+        {
+            "name": "Casters",
+            "link": "casters"
+        },
+        {
+            "name": "Wheels",
+            "link": "wheels"
+        },
+        {
+            "name": "Counterbalance Fully Powered Drum Stacker",
+            "link": "counterbalance-fully-powered-drum-stacker"
+        },
+        {
+            "name": "Counterbalance Semi Powered Drum Stacker",
+            "link": "counterbalance-semi-powered-drum-stacker"
+        },
+        {
+            "name": "Electric Reach Stacker",
+            "link": "electric-reach-stacker"
+        },
+        {
+            "name": "Flameproof Electric Drum Stacker",
+            "link": "flameproof-electric-drum-stacker"
+        },
+        {
+            "name": "Flameproof Electric Stacker",
+            "link": "flameproof-electric-stacker"
+        },
+        {
+            "name": "Full Electric Stacker",
+            "link": "full-electric-stacker"
+        },
+        {
+            "name": "Fully Powered Drum Stacker",
+            "link": "fully-powered-drum-stacker"
+        },
+        {
+            "name": "Hook Stacker",
+            "link": "hook-stacker"
+        },
+        {
+            "name": "Hydraulic Roller Stacker",
+            "link": "hydraulic-roller-stacker"
+        },
+        {
+            "name": "Manual Drum Stacker",
+            "link": "manual-drum-stacker"
+        },
+        {
+            "name": "Manual Drum Stacker (V-Shaped Base)",
+            "link": "manual-drum-stacker-v-shaped-base"
+        },
+        {
+            "name": "Manual Hydraulic Stacker",
+            "link": "manual-hydraulic-stacker"
+        },
+        {
+            "name": "Paper Reel Stacker",
+            "link": "paper-reel-stacker"
+        },
+        {
+            "name": "Semi Electric Stacker",
+            "link": "semi-electric-stacker"
+        },
+        {
+            "name": "Semi Powered Drum Stacker",
+            "link": "semi-powered-drum-stacker"
+        },
+        {
+            "name": "Semi Powered Drum Stacker (V-Shaped Base)",
+            "link": "semi-powered-drum-stacker-v-shaped-base"
+        },
+        {
+            "name": "Straddle Leg Manual Stacker",
+            "link": "straddle-leg-manual-stacker"
+        }
+    ]
+}
