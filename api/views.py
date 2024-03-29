@@ -2352,7 +2352,7 @@ def userList(request):
             return HttpResponse(json.dumps({"error": str(e)}), content_type="application/json")
             
 @csrf_exempt
-def adForm(request):
+def adFormi(request):
     if request.method == "POST":
         inquiryform = adForm()
         inquiryform.name = request.POST.get('name')

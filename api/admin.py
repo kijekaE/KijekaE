@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, SubCategory, Product, Clients, YoutubeVideo, Quote , contactUs,Ip,Blog,Star,ReachUs,Footer,Careers,CareerEntry,UserProfile
+from .models import Category, SubCategory, Product, Clients, YoutubeVideo, Quote , contactUs,Ip,Blog,Star,ReachUs,Footer,Careers,CareerEntry,UserProfile,adForm
 from import_export.admin import ExportActionMixin
 from .models import ProductImage
 
@@ -89,6 +89,6 @@ admin.site.register(Careers,CareersAdmin)
 admin.site.register(CareerEntry,CareerEntryAdmin)
 admin.site.register(UserProfile,UserProfileAdmin)
 admin.site.register(ProductImage)
-
+admin.site.register(adForm)
 # admin.site.register(Review, ReviewAdmin)
 
