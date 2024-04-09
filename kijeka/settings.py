@@ -43,10 +43,10 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fluffy-rotary-phone-g9rw4jq57qgh9477-8000.app.github.dev"
 ]
 
- SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
- SECURE_SSL_REDIRECT = True
- SESSION_COOKIE_SECURE = True
- CSRF_COOKIE_SECURE = True
+ # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ # SECURE_SSL_REDIRECT = True
+ # SESSION_COOKIE_SECURE = True
+ # CSRF_COOKIE_SECURE = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
