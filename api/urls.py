@@ -48,6 +48,6 @@ urlpatterns = [
     path('newCareer/',views.newCareer,name="newCareer"),
     path('jobEntry/',views.jobEntry,name="jobEntry"),
     path('userList/',views.userList,name="userList"),
-    path("adForm/",views.adFormi,name="adForm"),
+    path("adForm/",views.adForm,name="adForm"),
     path("dbDownload", views.dbDownload, name="dbDownload"),
 ]

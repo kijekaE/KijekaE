@@ -29,6 +29,7 @@ import os
 import requests
 from random import randint
 import urllib.parse
+from django.http import JsonResponse
 from difflib import SequenceMatcher
 import http.client
 from django.core.mail import EmailMultiAlternatives
@@ -572,12 +573,12 @@ def categorySideBar(request):
         categoryArr = []
         for category in categoryList:
             categoryArr.append([category.categoryName, category.categoryLink,[[subCategory.subCategoryName,subCategory.subCategoryLink] for subCategory in SubCategory.objects.filter(category=category).all()]])
-        return HttpResponse(
-            json.dumps({"data": categoryArr}), content_type="application/json"
+        return JsonResponse(
+            {"data": categoryArr}, safe=False
         )
-    return HttpResponse(
-        json.dumps({"error": "You were not supposed be here."}),
-        content_type="application/json",
+    return JsonResponse(
+        {"error": "You were not supposed be here."},
+        safe=False
     )
 
 
@@ -1456,12 +1457,11 @@ def blogData(request):
             else:
                 pass
         random.shuffle(blogArr)
-        return HttpResponse(
-            json.dumps({"data": blogArr}), content_type="application/json"
+        return JsonResponse(
+            {"data": blogArr}, safe=False
         )
-    return HttpResponse(
-        json.dumps({"error": "You were not supposed be here."}),
-        content_type="application/json",
+    return JsonResponse(
+        {"error": "You were not supposed be here."}, safe=False
     )
 
 
@@ -1764,10 +1764,7 @@ def contactUsForm(request):
         footer.isMobile3 = isMobile3
         footer.isEmail3 = isEmail3
         footer.save()
-        return HttpResponse(
-            json.dumps({"msg": "Data updated successfully."}),
-            content_type="application/json",
-        )
+        return JsonResponse({"msg": "Data updated successfully."}, safe=False)
     data = {}
     footer = Footer.objects.first()
     data["contactLabel"] = footer.contactLabel
@@ -1787,7 +1784,7 @@ def contactUsForm(request):
     data["isEmail2"] = footer.isEmail2
     data["isMobile3"] = footer.isMobile3
     data["isEmail3"] = footer.isEmail3
-    return HttpResponse(json.dumps({"data": data}), content_type="application/json")
+    return JsonResponse({"data": data}, safe=False)
 
 
 @csrf_exempt
@@ -2352,7 +2349,7 @@ def userList(request):
             return HttpResponse(json.dumps({"error": str(e)}), content_type="application/json")
             
 @csrf_exempt
-def adFormi(request):
+def adForm(request):
     if request.method == "POST":
         inquiryform = adForm()
         inquiryform.name = request.POST.get('name')
