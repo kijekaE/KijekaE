@@ -12,9 +12,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "3qz424r6^spn(i%eg1w38l(-z#2fzgf6e70es@y#+tvl5e93gg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*", "127.0.0.1", "localhost","www.kijeka.com", "kijeka.com", "64.227.182.117"]
+ALLOWED_HOSTS = [
+    "*",
+    "127.0.0.1",
+    "localhost",
+    "www.kijeka.com",
+    "kijeka.com",
+    "64.227.182.117",
+]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -160,9 +167,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-
-STATICROO = os.path.join(BASE_DIR, "static")
+STATICROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
