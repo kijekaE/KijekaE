@@ -29,7 +29,7 @@ __pycache__/*
 # ===============================
 # Django Static Collection
 # ===============================
-static/
+ 
 # If you use collectstatic into /staticfiles instead
 # staticfiles/
 
