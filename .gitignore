@@ -1,7 +1,7 @@
 # ===============================
 # Python
 # ===============================
-__pycache__/
+__pycache__/*
 *.py[cod]
 *$py.class
 
@@ -87,7 +87,8 @@ celerybeat.pid
 # Python bytecode
 __pycache__/
 *.py[cod]
- 
+
+./staticfiles
 
 # Django stuff
 *.log
