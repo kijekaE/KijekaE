@@ -1,8 +1,94 @@
+# ===============================
+# Python
+# ===============================
+__pycache__/*
+*.py[cod]
+*$py.class
+
+# ===============================
+# Virtual Environments
+# ===============================
+ 
+
+# ===============================
+# Django
+# ===============================
+*.log
+ 
+
+# Migrations (optional – usually keep them)
+# **Remove this if you want migrations tracked**
+# */migrations/*
+# !*/migrations/__init__.py
+
+# ===============================
+# Environment Variables
+# ===============================
+ 
+
+# ===============================
+# Django Static Collection
+# ===============================
+ 
+# If you use collectstatic into /staticfiles instead
+# staticfiles/
+
+# ===============================
+# Unit Tests / Coverage
+# ===============================
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# ===============================
+# Build / Packaging
+# ===============================
+ 
+*.egg-info/
+.eggs/
+
+# ===============================
+# IDEs & Editors
+# ===============================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Logs
+# ===============================
+*.log
+gunicorn.sock
+gunicorn.pid
+
+# ===============================
+# Celery / Redis
+# ===============================
+celerybeat-schedule
+celerybeat.pid
+
+# ===============================
+# Nginx / Deployment
+# ===============================
+*.pem
+*.key
+*.crt
 
 # Python bytecode
 __pycache__/
 *.py[cod]
- 
+
+./staticfiles
 
 # Django stuff
 *.log
