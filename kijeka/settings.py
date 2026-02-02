@@ -21,6 +21,7 @@ ALLOWED_HOSTS = [
     "www.kijeka.com",
     "kijeka.com",
     "64.227.182.117",
+    "209.38.120.39",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -165,8 +166,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
- 
-  
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -174,9 +173,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-
-
-
 
 
 SECRET_KEY = "6LcP1-wkAAAAAPEyR0wxSXO6cLpmiF3jfqI-JcL-"
