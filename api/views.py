@@ -639,7 +639,9 @@ def getCategoryProducts(request):
                 productList = Product.objects.filter(category=category).all()
             else:
                 subCategory = SubCategory.objects.filter(subCategoryLink=subCategory).first()
-                metaTitle = subCategory.category.metaTitle
+                if not subCategory:
+                    return JsonResponse({"error": "SubCategory not found"}, status=404)
+                metaTitle = subCategory.category.metaTitle if subCategory.category else ""
                 metaDescription = subCategory.category.metaDescription
                 productList = Product.objects.filter(subCategory=subCategory).all()
         productArr = []
