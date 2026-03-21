@@ -976,60 +976,131 @@ def homeCategoryList(request):
 @csrf_exempt
 def reviewFetcher(request):
     if request.method == "GET":
-        url = "https://www.google.com/maps/preview/review/listentitiesreviews?pb=!1m2!1y4133920741275602995!2y10276051086807358622!2m1!2i10!3e2!4m6!3b1!4b1!5b1!6b1!7b1!20b1!5m2!1s8pceZJLEOKmYseMP5M-8iA0!7e81"
-        payload = {}
-        headers = {
-            "authority": "www.google.com",
-            "accept": "*/*",
-            "accept-language": "en-US,en;q=0.9,gu;q=0.8",
-            "referer": "https://www.google.com/",
-            "sec-ch-ua-model": "",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-        }
-        response = requests.request("GET", url, headers=headers, data=payload)
-        temp = response.text
-        temp = temp.replace(")]}'", "")
-        temp = json.loads(temp)
-        tempData = []
-        data = []
-        for i in temp:
-            if str(i)[0] == "[" and tempData == []:
-                tempData = i
-        for i in tempData:
-            if i[3] != "" and i[3] != None:
-                temp = {}
-                temp["name"] = i[0][1]
-                temp["image"] = i[0][2].replace("br100", "br0")
-                temp["time"] = i[1]
-                temp["review"] = i[3]
-                temp["rating"] = i[4]
-                data.append(temp)
-        url = "https://www.google.com/maps/preview/review/listentitiesreviews?pb=!1m2!1y4133920741275602995!2y10276051086807358622!2m1!2i10!3e1!4m6!3b1!4b1!5b1!6b1!7b1!20b1!5m2!1s8pceZJLEOKmYseMP5M-8iA0!7e81"
-        response = requests.request("GET", url, headers=headers, data=payload)
-        temp = response.text
-        temp = temp.replace(")]}'", "")
-        temp = json.loads(temp)
-        tempData = []
-        for i in temp:
-            if str(i)[0] == "[" and tempData == []:
-                tempData = i
-        for i in tempData:
-            if i[3] != "" and i[3] != None:
-                temp = {}
-                temp["name"] = i[0][1]
-                temp["image"] = i[0][2].replace("br100", "br0")
-                temp["time"] = i[1]
-                temp["review"] = i[3]
-                temp["rating"] = i[4]
-                if temp not in data:
+        try:
+            url = "https://www.google.com/maps/preview/review/listentitiesreviews?pb=!1m2!1y4133920741275602995!2y10276051086807358622!2m1!2i10!3e2!4m6!3b1!4b1!5b1!6b1!7b1!20b1!5m2!1s8pceZJLEOKmYseMP5M-8iA0!7e81"
+            payload = {}
+            headers = {
+                "authority": "www.google.com",
+                "accept": "*/*",
+                "accept-language": "en-US,en;q=0.9,gu;q=0.8",
+                "referer": "https://www.google.com/",
+                "sec-ch-ua-model": "",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-origin",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+            }
+            response = requests.request("GET", url, headers=headers, data=payload)
+            temp = response.text
+            temp = temp.replace(")]}'", "")
+            temp = json.loads(temp)
+            tempData = []
+            data = []
+            for i in temp:
+                if str(i)[0] == "[" and tempData == []:
+                    tempData = i
+            for i in tempData:
+                if i[3] != "" and i[3] != None:
+                    temp = {}
+                    temp["name"] = i[0][1]
+                    temp["image"] = i[0][2].replace("br100", "br0")
+                    temp["time"] = i[1]
+                    temp["review"] = i[3]
+                    temp["rating"] = i[4]
                     data.append(temp)
+            url = "https://www.google.com/maps/preview/review/listentitiesreviews?pb=!1m2!1y4133920741275602995!2y10276051086807358622!2m1!2i10!3e1!4m6!3b1!4b1!5b1!6b1!7b1!20b1!5m2!1s8pceZJLEOKmYseMP5M-8iA0!7e81"
+            response = requests.request("GET", url, headers=headers, data=payload)
+            temp = response.text
+            temp = temp.replace(")]}'", "")
+            temp = json.loads(temp)
+            tempData = []
+            for i in temp:
+                if str(i)[0] == "[" and tempData == []:
+                    tempData = i
+            for i in tempData:
+                if i[3] != "" and i[3] != None:
+                    temp = {}
+                    temp["name"] = i[0][1]
+                    temp["image"] = i[0][2].replace("br100", "br0")
+                    temp["time"] = i[1]
+                    temp["review"] = i[3]
+                    temp["rating"] = i[4]
+                    if temp not in data:
+                        data.append(temp)
+            
+            if len(data) == 0:
+                raise Exception("Empty data fetched from Google Maps")
+        except:
+            data = [
+        {
+            "name": "Mona Dave",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocK5d-RxSzc-XuinzoN0nDM6GM2DZ-I2iYtTfIK658lCtpD5tg=s120-c-rp-mo-br0",
+            "time": "2 months ago",
+            "review": "High-Quality Equipment: Known for durable products like hydraulic hand pallet trucks, drum stackers, and specialized material handling systems.\nCustomer-Centric Approach: Visitors frequently note the supportive technical team and prompt, cooperative service.\nSpecialized Innovation: They are recognized for their expertise in handling heavy and awkward loads, particularly with their range of drum handling equipment and customized industrial stirrers.\nGlobal Trust: With exports to over 23 countries, their reliability is reflected in long-term relationships across sectors like pharmaceuticals, chemicals, and food processing.",
+            "rating": 5
+        },
+        {
+            "name": "Kaushal Shah",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocKOQjk9J_q4kvdqDqbZwmxrtIzT6zpF1JEx9MHNPI5TN0CzQQ=s120-c-rp-mo-br0",
+            "time": "2 months ago",
+            "review": "Kijeka is a highly reliable and professional company. Their engineering quality, commitment to timelines, and transparent communication make them a pleasure to work with. Strongly recommended.",
+            "rating": 5
+        },
+        {
+            "name": "JYOTIKA TRIVEDI",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocKH855zCpG7vgSrIub9KauNFvkGMAa6trlr55ufnQlGvGYagg=s120-c-rp-mo-br0",
+            "time": "2 months ago",
+            "review": "Kijeka Engineers pvt. Ltd. Stands for strength, safety and reliability.Thier high- quality ladders, cranes and engineering solutions reflect precision, durability, and a strong commitment to excellence.",
+            "rating": 5
+        },
+        {
+            "name": "Ankit Patel",
+            "image": "https://lh3.googleusercontent.com/a-/ALV-UjU300y6ZaQb0Pe-3YclJOz_2XJvd_FgIbITwi-xNvfk6xWDQH4=s120-c-rp-mo-br0",
+            "time": "5 months ago",
+            "review": "Product is good in quality and the management is also very kind and very helpful. And their after sales services are also good.",
+            "rating": 5
+        },
+        {
+            "name": "Manish Rai",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocKeK4G-KyFQ_ceagw9rYvrklK2D2T8usD_2qEZbD0qSIWhLLA=s120-c-rp-mo-br0",
+            "time": "5 months ago",
+            "review": "Excellent product service is superb recived what commited by Dave sir",
+            "rating": 5
+        },
+        {
+            "name": "Durva Vyas",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocJDq--L2BE71blkpz1iGpNCUhT_XDbot3ubH_rABjaKF0PraQo=s120-c-rp-mo-br0",
+            "time": "2 months ago",
+            "review": "Nice to visit and understand our needs for our upcoming plant",
+            "rating": 5
+        },
+        {
+            "name": "Raj Kumar",
+            "image": "https://lh3.googleusercontent.com/a/ACg8ocI6PSg6Q8vPBPIoPs3YdXK7G3YIyTjQyRuzNTL2gGRAlAobXg=s120-c-rp-mo-br0",
+            "time": "Edited a year ago",
+            "review": "I taken pneumatic pump from kijeka 3 year back.still working very fine.customer support also so good.when on 3 year back I installed wrongly I run pump which got fault.due to my innocence of wrongly installed instead they done \u2714\ufe0f service with free of cost.Thats really great\ud83d\udc4d",
+            "rating": 5
+        },
+        {
+            "name": "Mitul Pagi",
+            "image": "https://lh3.googleusercontent.com/a-/ALV-UjUAXe-KnKKuxkDPaTJrQrZVm9g682RgPrS5IztZk0iF3lbdq4KX=s120-c-rp-mo-ba2-br0",
+            "time": "3 years ago",
+            "review": "Kijeka Engineers is our supplier ,  management of this organisation is very cooperative and prompt service provider.\nIn MHE they always gave us fast result.\nGreat team.",
+            "rating": 5
+        },
+        {
+            "name": "Ramesh Panchal",
+            "image": "https://lh3.googleusercontent.com/a-/ALV-UjUm_uudYXzoUhFavWL9sNoLWEV7rZ-4B2xbwk4G4TxDXbT_dn4t=s120-c-rp-mo-br0",
+            "time": "a month ago",
+            "review": "Good Quality product and good service",
+            "rating": 5
+        }
+    ]
         return HttpResponse(json.dumps({"data": data}), content_type="application/json")
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
     )
+
 
 
 @csrf_exempt
