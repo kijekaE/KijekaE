@@ -103,4 +103,6 @@ __pycache__/
 # Pytest
 .cache/
 *.cover
+
+venv
  
