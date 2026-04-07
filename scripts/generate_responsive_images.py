@@ -27,6 +27,10 @@ def generate_derivatives(src_dir, out_dir=None, quality=80):
             name, ext = os.path.splitext(f)
             if ext.lower() not in exts:
                 continue
+
+            # Skip files that end in our known suffixes to avoid recursive processing
+            if any(name.endswith(f"-{tw}") for tw in TARGET_WIDTHS) or name.endswith("-205"):
+                continue
             src_path = os.path.join(root, f)
             rel_dir = os.path.relpath(root, src_dir)
             target_dir = os.path.join(out_dir, rel_dir) if rel_dir != '.' else out_dir
@@ -36,14 +40,20 @@ def generate_derivatives(src_dir, out_dir=None, quality=80):
                     w, h = im.size
                     # Create width-based derivatives
                     for tw in TARGET_WIDTHS:
-                        if w <= tw:
-                            continue
-                        ratio = tw / float(w)
-                        th = int(h * ratio)
                         out_name = f"{name}-{tw}.webp"
                         out_path = os.path.join(target_dir, out_name)
                         if os.path.exists(out_path):
                             continue
+
+                        if w <= tw:
+                            # If smaller than target width, just save original without resizing
+                            # to ensure the file exists for the frontend srcSet
+                            im.save(out_path, 'WEBP', quality=quality)
+                            print('W (original size)', out_path)
+                            continue
+
+                        ratio = tw / float(w)
+                        th = int(h * ratio)
                         im_resized = im.resize((tw, th), Image.LANCZOS)
                         im_resized.save(out_path, 'WEBP', quality=quality)
                         print('W', out_path)
