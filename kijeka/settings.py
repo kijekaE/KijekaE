@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "3qz424r6^spn(i%eg1w38l(-z#2fzgf6e70es@y#+tvl5e93gg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "*",
@@ -65,6 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3001",
     "http://localhost:8080",
     "http://64.227.182.117",
+    "http://49.36.80.24",
     "https://kijeka.com",
     "https://www.kijeka.com",
     "http://*:*",
@@ -79,6 +80,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://127.0.0.1:3001",
     "http://64.227.182.117",
+    "http://49.36.80.24",
     "http://localhost:8080",
     "https://kijeka.com",
     "https://www.kijeka.com",
@@ -194,3 +196,41 @@ EMAIL_HOST_USER = "jaivin@pruthatek.com"
 EMAIL_HOST_PASSWORD = "Jaivin@123"
 
 # github repo  https://github.com/Anshmodi30/test001.git
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "debug.log"),
+            "formatter": "verbose",
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["file", "console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}
+
+
