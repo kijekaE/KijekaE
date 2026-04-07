@@ -1863,6 +1863,7 @@ def contactUsForm(request):
 @csrf_exempt
 def loginUser(request):
     if request.method == "POST":
+
         username = request.POST.get("username")
         password = request.POST.get("password")
 
