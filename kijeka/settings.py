@@ -22,6 +22,7 @@ ALLOWED_HOSTS = [
     "kijeka.com",
     "64.227.182.117",
     "209.38.120.39",
+    "49.36.80.24"
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -181,7 +182,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 WHITENOISE_MAX_AGE = 31536000
 
 
-SECRET_KEY = "6LcP1-wkAAAAAPEyR0wxSXO6cLpmiF3jfqI-JcL-"
+RECAPTCHA_SECRET_KEY = "6LcP1-wkAAAAAPEyR0wxSXO6cLpmiF3jfqI-JcL-"
 SITE_KEY = "6LcP1-wkAAAAAJ7rGFlQwmL4DvUvmfIj6FljoNrX"
 
 
