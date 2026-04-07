@@ -1865,11 +1865,21 @@ def loginUser(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+
+        if not username or not password:
+            try:
+                data = json.loads(request.body)
+                username = data.get("username")
+                password = data.get("password")
+            except:
+                pass
+
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect("/dashboard/home/")
+                # return redirect("/dashboard/home/")
+                return JsonResponse({"msg": "Login successful", "success": True})
             else:
                 return HttpResponse(
                     json.dumps({"error": "Your account is not active."}),
