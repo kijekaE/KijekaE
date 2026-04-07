@@ -84,9 +84,15 @@ celerybeat.pid
 *.key
 *.crt
 
-# Python bytecode
+# Python cache files
 __pycache__/
 *.py[cod]
+*$py.class
+*.pyc
+.pyc
+**/__pycache__/
+*/__pycache__/
+**/api/__pycache__/
 
 ./staticfiles
 
@@ -106,3 +112,4 @@ __pycache__/
 
 venv
  
+staticfiles
