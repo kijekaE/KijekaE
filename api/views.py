@@ -36,6 +36,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import authenticate, login, logout
 import csv
 from datetime import date
+from django.utils.html import strip_tags
 
 
 def get_client_ip(request):
@@ -573,9 +574,13 @@ def categorySideBar(request):
         categoryArr = []
         for category in categoryList:
             categoryArr.append([category.categoryName, category.categoryLink,[[subCategory.subCategoryName,subCategory.subCategoryLink] for subCategory in SubCategory.objects.filter(category=category).all()]])
-        return JsonResponse(
+        response = JsonResponse(
             {"data": categoryArr}, safe=False
         )
+        # Cache sidebar nav for 1 hour — it rarely changes and is fetched on every page
+        response["Cache-Control"] = "public, max-age=3600"
+        response["Vary"] = "Accept-Encoding"
+        return response
     return JsonResponse(
         {"error": "You were not supposed be here."},
         safe=False
@@ -639,9 +644,7 @@ def getCategoryProducts(request):
                 productList = Product.objects.filter(category=category).all()
             else:
                 subCategory = SubCategory.objects.filter(subCategoryLink=subCategory).first()
-                if not subCategory:
-                    return JsonResponse({"error": "SubCategory not found"}, status=404)
-                metaTitle = subCategory.category.metaTitle if subCategory.category else ""
+                metaTitle = subCategory.category.metaTitle
                 metaDescription = subCategory.category.metaDescription
                 productList = Product.objects.filter(subCategory=subCategory).all()
         productArr = []
@@ -945,16 +948,20 @@ def homeCategoryList(request):
                 averageStar = product.average_star()
                 stars = int(averageStar)
                 starCount = product.Star_Count()
+                # Performance Optimization: Strip HTML tags and truncate description for homepage carousel
+                clean_description = strip_tags(
+                    str(product.description)
+                    .replace("<!DOCTYPE html><html><head><title></title></head><body>", "")
+                    .replace("</body></html>", "")
+                )
+                if len(clean_description) > 200:
+                    clean_description = clean_description[:197] + "..."
+
                 temp["products"].append(
                     [
                         product.productName,
                         "/media/images/" + (product.images.url).split("/")[-1],
-                        str(product.description)
-                        .replace(
-                            "<!DOCTYPE html><html><head><title></title></head><body>",
-                            "",
-                        )
-                        .replace("</body></html>", ""),
+                        clean_description,
                         liked,
                         stars,
                         starCount,
@@ -964,9 +971,13 @@ def homeCategoryList(request):
             temp["categoryLink"] = category.categoryLink
             temp["discription"] = category.discription
             categoryArr.append(temp)
-        return HttpResponse(
+        response = HttpResponse(
             json.dumps({"data": categoryArr}), content_type="application/json"
         )
+        # Cache homepage category list for 30 minutes — stable data, fetched on every homepage load
+        response["Cache-Control"] = "public, max-age=1800"
+        response["Vary"] = "Accept-Encoding"
+        return response
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
@@ -1093,6 +1104,13 @@ def reviewFetcher(request):
             "time": "a month ago",
             "review": "Good Quality product and good service",
             "rating": 5
+        },
+        {
+            "name": "Rajat Thakar",
+            "image": "https://lh3.googleusercontent.com/a-/ALV-UjVTU5_ULTJUGSB6US9pB9g_QmdbcaiqmVzs247f3iJmr51GNmlFaQ=s120-c-rp-mo-ba3-br0",
+            "time": "Edited 3 years ago",
+            "review": "Kijeka Engineers is a right place for all kind of Material Handling Equipments. All products are made in india and available in reliable rate",
+            "rating": 5
         }
     ]
         return HttpResponse(json.dumps({"data": data}), content_type="application/json")
@@ -1100,7 +1118,6 @@ def reviewFetcher(request):
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
     )
-
 
 
 @csrf_exempt
@@ -1225,9 +1242,13 @@ def youtubeVideoList(request):
                     video.id,
                 ]
             )
-        return HttpResponse(
+        response = HttpResponse(
             json.dumps({"data": videoArr}), content_type="application/json"
         )
+        # Cache YouTube video list for 1 hour — rarely updated
+        response["Cache-Control"] = "public, max-age=3600"
+        response["Vary"] = "Accept-Encoding"
+        return response
     if request.method == "POST":
         link = request.POST.get("link")
         title = request.POST.get("title")
@@ -1691,7 +1712,11 @@ def imageSlider(request):
         images[i] = "/media/images/slider/" + images[i]
     if len(images) == 0:
         return HttpResponse(json.dumps({"data": [""]}), content_type="application/json")
-    return HttpResponse(json.dumps({"data": images}), content_type="application/json")
+    response = HttpResponse(json.dumps({"data": images}), content_type="application/json")
+    # Cache slider image list for 1 hour — updated rarely via admin dashboard
+    response["Cache-Control"] = "public, max-age=3600"
+    response["Vary"] = "Accept-Encoding"
+    return response
 
 
 @csrf_exempt
@@ -1863,23 +1888,12 @@ def contactUsForm(request):
 @csrf_exempt
 def loginUser(request):
     if request.method == "POST":
-
         username = request.POST.get("username")
         password = request.POST.get("password")
-
-        if not username or not password:
-            try:
-                data = json.loads(request.body)
-                username = data.get("username")
-                password = data.get("password")
-            except:
-                pass
-
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # return redirect("/dashboard/home/")
                 return JsonResponse({"msg": "Login successful", "success": True})
             else:
                 return HttpResponse(
