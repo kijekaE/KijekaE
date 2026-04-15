@@ -574,13 +574,9 @@ def categorySideBar(request):
         categoryArr = []
         for category in categoryList:
             categoryArr.append([category.categoryName, category.categoryLink,[[subCategory.subCategoryName,subCategory.subCategoryLink] for subCategory in SubCategory.objects.filter(category=category).all()]])
-        response = JsonResponse(
+        return JsonResponse(
             {"data": categoryArr}, safe=False
         )
-        # Cache sidebar nav for 1 hour — it rarely changes and is fetched on every page
-        response["Cache-Control"] = "public, max-age=3600"
-        response["Vary"] = "Accept-Encoding"
-        return response
     return JsonResponse(
         {"error": "You were not supposed be here."},
         safe=False
@@ -794,7 +790,6 @@ def getProductDetail(request):
         }
         
         return HttpResponse(json.dumps({"data": data}), content_type="application/json")
-
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
@@ -873,13 +868,9 @@ def homeCategoryList(request):
             temp["categoryLink"] = category.categoryLink
             temp["discription"] = category.discription
             categoryArr.append(temp)
-        response = HttpResponse(
+        return HttpResponse(
             json.dumps({"data": categoryArr}), content_type="application/json"
         )
-        # Cache homepage category list for 30 minutes — stable data, fetched on every homepage load
-        response["Cache-Control"] = "public, max-age=1800"
-        response["Vary"] = "Accept-Encoding"
-        return response
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
@@ -1144,13 +1135,9 @@ def youtubeVideoList(request):
                     video.id,
                 ]
             )
-        response = HttpResponse(
+        return HttpResponse(
             json.dumps({"data": videoArr}), content_type="application/json"
         )
-        # Cache YouTube video list for 1 hour — rarely updated
-        response["Cache-Control"] = "public, max-age=3600"
-        response["Vary"] = "Accept-Encoding"
-        return response
     if request.method == "POST":
         link = request.POST.get("link")
         title = request.POST.get("title")
@@ -1614,11 +1601,7 @@ def imageSlider(request):
         images[i] = "/media/images/slider/" + images[i]
     if len(images) == 0:
         return HttpResponse(json.dumps({"data": [""]}), content_type="application/json")
-    response = HttpResponse(json.dumps({"data": images}), content_type="application/json")
-    # Cache slider image list for 1 hour — updated rarely via admin dashboard
-    response["Cache-Control"] = "public, max-age=3600"
-    response["Vary"] = "Accept-Encoding"
-    return response
+    return HttpResponse(json.dumps({"data": images}), content_type="application/json")
 
 
 @csrf_exempt
