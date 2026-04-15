@@ -637,16 +637,26 @@ def getCategoryProducts(request):
             metaTitle = "Hot Products"
             metaDescription = "Buy various Hot Products from Kijeka Engineers Pvt. Ltd."
         else:
-            if subCategory == "":
-                category = Category.objects.filter(categoryLink=category).first()
-                metaTitle = category.metaTitle
-                metaDescription = category.metaDescription
-                productList = Product.objects.filter(category=category).all()
+            if not subCategory or subCategory == "":
+                cat_obj = Category.objects.filter(categoryLink=category).first()
+                if cat_obj:
+                    metaTitle = cat_obj.metaTitle
+                    metaDescription = cat_obj.metaDescription
+                    productList = Product.objects.filter(category=cat_obj).all()
+                else:
+                    metaTitle = category.replace("-", " ").capitalize() if category else ""
+                    metaDescription = ""
+                    productList = []
             else:
-                subCategory = SubCategory.objects.filter(subCategoryLink=subCategory).first()
-                metaTitle = subCategory.category.metaTitle
-                metaDescription = subCategory.category.metaDescription
-                productList = Product.objects.filter(subCategory=subCategory).all()
+                subCat_obj = SubCategory.objects.filter(subCategoryLink=subCategory).first()
+                if subCat_obj:
+                    metaTitle = subCat_obj.category.metaTitle if subCat_obj.category else ""
+                    metaDescription = subCat_obj.category.metaDescription if subCat_obj.category else ""
+                    productList = Product.objects.filter(subCategory=subCat_obj).all()
+                else:
+                    metaTitle = subCategory.replace("-", " ").capitalize()
+                    metaDescription = ""
+                    productList = []
         productArr = []
         ip = get_client_ip(request)
         for product in productList:
@@ -707,192 +717,84 @@ def getCategoryProducts(request):
 @csrf_exempt
 def getProductDetail(request):
     if request.method == "GET":
-        productName = request.GET.get("productName")
-        product = Product.objects.filter(productLink=productName).first()
-        product1 = Product.objects.filter(productName=productName).first()
+        productName_param = request.GET.get("productName")
+        if not productName_param:
+            return HttpResponse(
+                json.dumps({"data": {"productName": ""}}),
+                content_type="application/json",
+            )
+            
+        # Try finding by productLink first (exact match)
+        product = Product.objects.filter(productLink=productName_param).first()
         
-        if product:
-          product_images = ProductImage.objects.filter(product=product).filter()
+        # Fallback 1: Try finding by exact productName
+        if not product:
+            product = Product.objects.filter(productName=productName_param).first()
+            
+        # Fallback 2: Try finding by slugified version of productName or productLink
+        if not product:
+            normalized_param = productName_param.lower().replace(" ", "-")
+            product = Product.objects.filter(productLink=normalized_param).first()
+            if not product:
+                # Try finding product whose name, when slugified, matches the param
+                # Note: This is an expensive operation but useful as a last resort fallback
+                for p in Product.objects.all():
+                    if p.productName.lower().replace(" ", "-") == normalized_param:
+                        product = p
+                        break
+
+        if not product:
+            return HttpResponse(
+                json.dumps({"data": {"productName": ""}}),
+                content_type="application/json",
+            )
+
+        # Get images
+        product_images = ProductImage.objects.filter(product=product).first()
         
-          if product_images:
-            # Get the image URLs
-            product_images = ProductImage.objects.get(product=product)
-            print("get object")
-            
-            main_img=product.images
-            image1_url = product_images.image1.url if product_images.image1 else ''
-            image2_url = product_images.image2.url if product_images.image2 else ''
-            image3_url = product_images.image3.url if product_images.image3 else ''
-            image4_url = product_images.image4.url if product_images.image4 else ''
-            image5_url = product_images.image5.url if product_images.image5 else ''
-            image6_url = product_images.image6.url if product_images.image6 else ''
-            image7_url = product_images.image7.url if product_images.image7 else ''
-            
-            # Create a dictionary with the image URLs
-            image_urls = {
-                'main_img':"/media/images/" + (product.images.url).split("/")[-1],
-                'image1_url': image1_url,
-                'image2_url': image2_url,
-                'image3_url': image3_url,
-                'image4_url': image4_url,
-                'image5_url': image5_url,
-                'image6_url': image6_url,
-                'image7_url': image7_url,
-            }
-            try:
-                    image_urls["main_img"] = "/media/images/" + (product.images.url).split("/")[-1]
-            except:
-                    image_urls["main_img"]  = ""
-          else:
-            print("productImage is not exist")
-            image_urls = {
-                'main_img':"/media/images/" + (product.images.url).split("/")[-1],
-                'image1_url': '',
-                'image2_url': '',
-                'image3_url': '',
-                'image4_url': '',
-                'image5_url': '',
-                'image6_url': '',
-                'image7_url': '',
-            
-            }
-            try:
-                    image_urls["main-img"] = "/media/images/" + (product.images.url).split("/")[-1]
-            except:
-                    image_urls["main-img"]  = ""
-        # else:
-        #   print("product is not exist")
-        #   image_urls = {
-        #     # 'main_img':"/media/images/" + (product.images.url).split("/")[-1], 
-        #     'image1_url': '',
-        #     'image2_url': '',
-        #     'image3_url': '',
-        #     'image4_url': '',
-        #     'image5_url': '',
-        #     'image6_url': '',
-        #     'image7_url': '',
-            
-        #   }
-        #   try:
-        #             image_urls["main-img"] = "/media/images/" + (product.images.url).split("/")[-1]
-        #   except:
-        #             image_urls["main-img"]  = ""
-        if product1:
-          product_images = ProductImage.objects.filter(product=product1).filter()
+        main_img_url = ""
+        try:
+            main_img_url = "/media/images/" + (product.images.url).split("/")[-1]
+        except:
+            pass
+
+        image_urls = {
+            'main_img': main_img_url,
+            'image1_url': product_images.image1.url if product_images and product_images.image1 else '',
+            'image2_url': product_images.image2.url if product_images and product_images.image2 else '',
+            'image3_url': product_images.image3.url if product_images and product_images.image3 else '',
+            'image4_url': product_images.image4.url if product_images and product_images.image4 else '',
+            'image5_url': product_images.image5.url if product_images and product_images.image5 else '',
+            'image6_url': product_images.image6.url if product_images and product_images.image6 else '',
+            'image7_url': product_images.image7.url if product_images and product_images.image7 else '',
+        }
         
-          if product_images:
-            # Get the image URLs
-            product_images = ProductImage.objects.get(product=product1)
-            print("get object in product1")
-            
-            main_img=product1.images
-            image1_url = product_images.image1.url if product_images.image1 else ''
-            image2_url = product_images.image2.url if product_images.image2 else ''
-            image3_url = product_images.image3.url if product_images.image3 else ''
-            image4_url = product_images.image4.url if product_images.image4 else ''
-            image5_url = product_images.image5.url if product_images.image5 else ''
-            image6_url = product_images.image6.url if product_images.image6 else ''
-            image7_url = product_images.image7.url if product_images.image7 else ''
-            
-            # Create a dictionary with the image URLs
-            image_urls = {
-                'main_img':"/media/images/" + (product1.images.url).split("/")[-1],
-                'image1_url': image1_url,
-                'image2_url': image2_url,
-                'image3_url': image3_url,
-                'image4_url': image4_url,
-                'image5_url': image5_url,
-                'image6_url': image6_url,
-                'image7_url': image7_url,
-            }
-            try:
-                    image_urls["main-img"] = "/media/images/" + (product1.images.url).split("/")[-1]
-            except:
-                    image_urls["main-img"]  = ""
-          else:
-            print("productImage is not exist in")
-            image_urls = {
-                'main_img':"/media/images/" + (product1.images.url).split("/")[-1],
-                'image1_url': '',
-                'image2_url': '',
-                'image3_url': '',
-                'image4_url': '',
-                'image5_url': '',
-                'image6_url': '',
-                'image7_url': '',
-            
-            }
-            try:
-                    image_urls["main-img"] = "/media/images/" + (product1.images.url).split("/")[-1]
-            except:
-                    image_urls["main-img"]  = ""
-        if product == None:
-            try:
-                product = Product.objects.filter(productName=productName).first()
-                averageStar = product.average_star()
-                data = {
-                    "productName": product.productName,
-                    "modelNo": product.modelNo,
-                    "description": str(product.description),
-                    "category": product.category.categoryName,
-                    "categoryLink": product.category.categoryLink,
-                    "ytLink": product.ytLink,
-                    "stars": int(averageStar),
-                    "starCount": product.Star_Count(),
-                    "isOnHome": product.isOnHome,
-                    "metaTitle": product.metaTitle,
-                    "metaDescription": product.metaDescription,
-                    "pro_images": image_urls
-                }
-                try:
-                    data["image"] = (
-                        "/media/images/" + (product.images.url).split("/")[-1]
-                    )
-                except:
-                    pass
-                try:
-                    data["productPdf"] = product.productPdf.url
-                except:
-                    data["productPdf"] = ""
-                try:
-                    data["subCategory"] =  product.subCategory.SubCategoryName
-                except:
-                    data["subCategory"]  = ""
-                return HttpResponse(
-                    json.dumps({"data": data}), content_type="application/json"
-                )
-            except:
-                return HttpResponse(
-                    json.dumps({"data": {"productName": ""}}),
-                    content_type="application/json",
-                )
+        # Backward compatibility for 'main-img' key used in some parts of the code
+        image_urls["main-img"] = main_img_url
+
         averageStar = product.average_star()
+        
         data = {
             "productName": product.productName,
-            "modelNo": product.modelNo,
+            "modelNo": product.modelNo or "",
             "description": str(product.description)
             .replace("<!DOCTYPE html><html><head><title></title></head><body>", "")
             .replace("</body></html>", ""),
-            "image": "/media/images/" + (product.images.url).split("/")[-1],
-            "category": product.category.categoryName,
-            "categoryLink": product.category.categoryLink,
-            "ytLink": product.ytLink,
+            "image": main_img_url,
+            "category": product.category.categoryName if product.category else "",
+            "categoryLink": product.category.categoryLink if product.category else "",
+            "ytLink": product.ytLink or "",
             "stars": int(averageStar),
             "starCount": product.Star_Count(),
-            "metaTitle": product.metaTitle,
-            "metaDescription": product.metaDescription,
-            "pro_images":image_urls
+            "metaTitle": product.metaTitle or product.productName,
+            "metaDescription": product.metaDescription or "",
+            "pro_images": image_urls,
+            "productPdf": product.productPdf.url if product.productPdf else "",
+            "subCategory": product.subCategory.subCategoryName if product.subCategory else ""
         }
-        try:
-            data["productPdf"] = product.productPdf.url
-        except:
-            data["productPdf"] = ""
-        try:
-            data["subCategory"] =  product.subCategory.subCategoryName
-        except:
-            data["subCategory"]  = ""
         
         return HttpResponse(json.dumps({"data": data}), content_type="application/json")
+
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
         content_type="application/json",
