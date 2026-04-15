@@ -34,7 +34,6 @@ urlpatterns = (
         ),
         path("job-apply/<str:link>/", TemplateView.as_view(template_name="index.html")),
         path("our-products/", TemplateView.as_view(template_name="index.html")),
-        path("<str:link>/", TemplateView.as_view(template_name="index.html")),
         path("product/<str:link>/", TemplateView.as_view(template_name="index.html")),
         path("product-compare/", TemplateView.as_view(template_name="index.html")),
         path("privacy-policy/", TemplateView.as_view(template_name="index.html")),
@@ -59,11 +58,11 @@ urlpatterns = (
         path("dashboard/contactdetails/", views.contactdetails, name="contactdetails"),
         path("dashboard/reachusform/", views.reachusform, name="reachusform"),
         path("dashboard/careers/", views.careers, name="careers"),
-        path("<str:link>/", TemplateView.as_view(template_name="index.html")),
         path(
             "<str:link>/<str:subLink>/",
             TemplateView.as_view(template_name="index.html"),
         ),
+        path("<str:link>/", TemplateView.as_view(template_name="index.html")),
     ]
     + [
         re_path(
