@@ -1353,22 +1353,24 @@ def likeProduct(request):
                     content_type="application/json"
                 )
 
-            # Robust product lookup
-            product = Product.objects.filter(productName=productName_param).first()
+            # Robust product lookup (Sync with getProductDetail logic)
+            # Try finding by productLink first (exact match)
+            product = Product.objects.filter(productLink__iexact=productName_param).first()
             if not product:
-                product = Product.objects.filter(productLink=productName_param).first()
+                product = Product.objects.filter(productName__iexact=productName_param).first()
             if not product:
                 normalized_param = productName_param.lower().replace(" ", "-")
-                product = Product.objects.filter(productLink=normalized_param).first()
+                product = Product.objects.filter(productLink__iexact=normalized_param).first()
+                if not product:
+                    for p in Product.objects.all():
+                        if p.productName.lower().replace(" ", "-") == normalized_param:
+                            product = p
+                            break
 
             if product:
                 ip = get_client_ip(request)
-                if ip is not None:
-                    ip_obj = Ip.objects.filter(ip=ip).first()
-                    if not ip_obj:
-                        ip_obj = Ip()
-                        ip_obj.ip = ip
-                        ip_obj.save()
+                if ip:
+                    ip_obj, created = Ip.objects.get_or_create(ip=ip)
                     
                     if product.likes.filter(id=ip_obj.id).exists():
                         product.likes.remove(ip_obj)
@@ -1377,7 +1379,7 @@ def likeProduct(request):
                         product.likes.add(ip_obj)
                         msg = "liked"
                     
-                    product.save()
+                    # product.save() is redundant for M2M updates and can cause 500 errors if other fields are invalid
                     likes = product.total_likes()
                     return HttpResponse(
                         json.dumps({"msg": "success", "status": msg, "data": likes}),
@@ -1420,21 +1422,27 @@ def starProduct(request):
             
             stars = int(stars_param)
             
-            # Robust product lookup
-            product = Product.objects.filter(productName=productName_param).first()
+            # Robust product lookup (Sync with getProductDetail logic)
+            # Try finding by productLink first (exact match)
+            product = Product.objects.filter(productLink__iexact=productName_param).first()
             if not product:
-                product = Product.objects.filter(productLink=productName_param).first()
+                product = Product.objects.filter(productName__iexact=productName_param).first()
             if not product:
                 normalized_param = productName_param.lower().replace(" ", "-")
-                product = Product.objects.filter(productLink=normalized_param).first()
+                product = Product.objects.filter(productLink__iexact=normalized_param).first()
+                if not product:
+                    for p in Product.objects.all():
+                        if p.productName.lower().replace(" ", "-") == normalized_param:
+                            product = p
+                            break
             
             if product:
                 newStar = Star()
-                newStar.star = stars
+                newStar.star = min(max(stars, 1), 5) # Ensure stars are between 1 and 5
                 newStar.save()
                 product.star.add(newStar)
-                product.save()
-                data = [product.Star_Count(), product.average_star()]
+                # product.save() is redundant for ManyToMany updates and can cause 500 errors if other fields are invalid
+                data = [product.Star_Count(), str(product.average_star())] # Ensure numbers are serializable/stable
                 return HttpResponse(
                     json.dumps({"msg": "success", "data": data}),
                     content_type="application/json",
