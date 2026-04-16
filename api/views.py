@@ -1345,42 +1345,59 @@ def searchDatabase(request):
 @csrf_exempt
 def likeProduct(request):
     if request.method == "GET":
-        productName = request.GET.get("title")
-        product = Product.objects.filter(productName=productName).first()
-        if product == None:
-            ip = get_client_ip(request)
-            if ip is not None:
-                if Ip.objects.filter(ip=ip).first() == None:
-                    ipNew = Ip()
-                    ipNew.ip = ip
-                    ipNew.save()
-                ipNew = Ip.objects.filter(ip=ip).first()
-                if product.likes.filter(id=ipNew.id).first() != None:
-                    product.likes.remove(Ip.objects.filter(ip=ip).first())
+        try:
+            productName_param = request.GET.get("title")
+            if not productName_param:
+                return HttpResponse(
+                    json.dumps({"error": "Missing title parameter"}), 
+                    content_type="application/json"
+                )
+
+            # Robust product lookup
+            product = Product.objects.filter(productName=productName_param).first()
+            if not product:
+                product = Product.objects.filter(productLink=productName_param).first()
+            if not product:
+                normalized_param = productName_param.lower().replace(" ", "-")
+                product = Product.objects.filter(productLink=normalized_param).first()
+
+            if product:
+                ip = get_client_ip(request)
+                if ip is not None:
+                    ip_obj = Ip.objects.filter(ip=ip).first()
+                    if not ip_obj:
+                        ip_obj = Ip()
+                        ip_obj.ip = ip
+                        ip_obj.save()
+                    
+                    if product.likes.filter(id=ip_obj.id).exists():
+                        product.likes.remove(ip_obj)
+                        msg = "unliked"
+                    else:
+                        product.likes.add(ip_obj)
+                        msg = "liked"
+                    
                     product.save()
                     likes = product.total_likes()
                     return HttpResponse(
-                        json.dumps({"msg": "success", "data": likes}),
+                        json.dumps({"msg": "success", "status": msg, "data": likes}),
                         content_type="application/json",
                     )
                 else:
-                    product.likes.add(Ip.objects.filter(ip=ip).first())
-                    product.save()
-                    likes = product.total_likes()
                     return HttpResponse(
-                        json.dumps({"msg": "success", "data": likes}),
-                        content_type="application/json",
+                        json.dumps({"error": "IP not found"}), 
+                        content_type="application/json"
                     )
-                return HttpResponse(
-                    json.dumps({"msg": "success"}), content_type="application/json"
-                )
             else:
                 return HttpResponse(
-                    json.dumps({"error": "failed"}), content_type="application/json"
+                    json.dumps({"error": "Product not found"}), 
+                    content_type="application/json"
                 )
-        else:
+        except Exception as e:
             return HttpResponse(
-                json.dumps({"error": "failed"}), content_type="application/json"
+                json.dumps({"error": str(e)}), 
+                content_type="application/json",
+                status=500
             )
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
@@ -1391,23 +1408,47 @@ def likeProduct(request):
 @csrf_exempt
 def starProduct(request):
     if request.method == "GET":
-        productName = request.GET.get("title")
-        stars = int(request.GET.get("stars"))
-        product = Product.objects.filter(productName=productName).first()
-        if product:
-            newStar = Star()
-            newStar.star = stars
-            newStar.save()
-            product.star.add(newStar)
-            product.save()
-            data = [product.Star_Count(), product.average_star()]
+        try:
+            productName_param = request.GET.get("title")
+            stars_param = request.GET.get("stars")
+            
+            if not productName_param or not stars_param:
+                return HttpResponse(
+                    json.dumps({"error": "Missing parameters"}), 
+                    content_type="application/json"
+                )
+            
+            stars = int(stars_param)
+            
+            # Robust product lookup
+            product = Product.objects.filter(productName=productName_param).first()
+            if not product:
+                product = Product.objects.filter(productLink=productName_param).first()
+            if not product:
+                normalized_param = productName_param.lower().replace(" ", "-")
+                product = Product.objects.filter(productLink=normalized_param).first()
+            
+            if product:
+                newStar = Star()
+                newStar.star = stars
+                newStar.save()
+                product.star.add(newStar)
+                product.save()
+                data = [product.Star_Count(), product.average_star()]
+                return HttpResponse(
+                    json.dumps({"msg": "success", "data": data}),
+                    content_type="application/json",
+                )
+            else:
+                return HttpResponse(
+                    json.dumps({"error": "Product not found"}), 
+                    content_type="application/json"
+                )
+        except Exception as e:
             return HttpResponse(
-                json.dumps({"msg": "success", "data": data}),
+                json.dumps({"error": str(e)}), 
                 content_type="application/json",
-            )
-        else:
-            return HttpResponse(
-                json.dumps({"error": "failed"}), content_type="application/json"
+                status=500
             )
     return HttpResponse(
         json.dumps({"error": "You were not supposed be here."}),
