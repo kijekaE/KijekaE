@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/452.46219afd.chunk.css","mappings":"AAOA,wCAGE,oBAAuB,CADvB,iBAGF","sources":["Components/Product_Video/productvideo.css"],"sourcesContent":[".swiper-button-next {\n\n  position: absolute;\n  color: white !important;\n\n}\n\n.swiper-button-prev {\n\n  position: absolute;\n  color: white !important;\n\n}"],"names":[],"sourceRoot":""}
