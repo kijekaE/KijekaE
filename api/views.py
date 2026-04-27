@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 import json
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .models import (
     Product,
@@ -1283,55 +1284,44 @@ def contactus(request):
 def searchDatabase(request):
     if request.method == "GET":
         searchQuery = request.GET.get("searchQuery")
+        if not searchQuery:
+            return HttpResponse(
+                json.dumps({"data": {"products": [], "categories": []}}),
+                content_type="application/json",
+            )
         searchQuery = searchQuery.lower()
-        result = {"products": [], "categories": []}
-        # search searchQuery in Product and append in result
-        productsName = Product.objects.filter(productName__contains=searchQuery).all()
-        productsDiscription = Product.objects.filter(
-            description__contains=searchQuery
-        ).all()
-        productsModel = Product.objects.filter(modelNo__contains=searchQuery).all()
-        for product in productsModel:
-            result["products"].append(
+        
+        # Search in Products
+        products = Product.objects.filter(
+            Q(productName__icontains=searchQuery) |
+            Q(description__icontains=searchQuery) |
+            Q(modelNo__icontains=searchQuery)
+        ).distinct()[:5]
+        
+        product_results = []
+        for product in products:
+            product_results.append(
                 [
                     product.productName,
-                    product.category.categoryLink,
-                    (product.images.url).split("/")[-1],
+                    product.category.categoryLink if product.category else "",
+                    (product.images.url).split("/")[-1] if product.images else "",
                     product.productLink,
                 ]
             )
-        for product in productsName:
-            result["products"].append(
-                [
-                    product.productName,
-                    product.category.categoryName,
-                    (product.images.url).split("/")[-1],
-                    product.productLink,
-                ]
-            )
-        for product in productsDiscription:
-            result["products"].append(
-                [
-                    product.productName,
-                    product.category.categoryLink,
-                    (product.images.url).split("/")[-1],
-                    product.productLink,
-                ]
-            )
-        result = {"products": result["products"][:5], "categories": []}
-        categoriesName = Category.objects.filter(
-            categoryName__contains=searchQuery
-        ).all()
-        categoriesDiscription = Category.objects.filter(
-            discription__contains=searchQuery
-        ).all()
-        for category in categoriesName:
-            result["categories"].append([category.categoryName, category.categoryLink])
-        for category in categoriesDiscription:
-            result["categories"].append([category.categoryName, category.categoryLink])
+            
+        # Search in Categories
+        categories = Category.objects.filter(
+            Q(categoryName__icontains=searchQuery) |
+            Q(discription__icontains=searchQuery)
+        ).distinct()[:5]
+        
+        category_results = []
+        for category in categories:
+            category_results.append([category.categoryName, category.categoryLink])
+            
         result = {
-            "products": result["products"],
-            "categories": result["categories"][:5],
+            "products": product_results,
+            "categories": category_results,
         }
         return HttpResponse(
             json.dumps({"data": result}), content_type="application/json"
