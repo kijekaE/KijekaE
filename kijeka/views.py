@@ -10,10 +10,20 @@ from django.shortcuts import get_object_or_404
 
 
 def blogDynamic(request, link):
-    blog = get_object_or_404(Blog, blogLink=link)
+    # Normalize link (remove trailing slash if any)
+    link = link.rstrip("/")
+    
+    # 1. Try finding by blogLink (case-insensitive)
+    blog = Blog.objects.filter(blogLink__iexact=link).first()
 
-    # Atomic DB update (safe for SQLite + gunicorn)
-    Blog.objects.filter(id=blog.id).update(views=F("views") + 1)
+    # 2. Fallback: Try matching by title (converting slug back to spaces)
+    if not blog:
+        title_guess = link.replace("-", " ")
+        blog = Blog.objects.filter(title__iexact=title_guess).first()
+
+    if blog:
+        # Atomic DB update (safe for SQLite + gunicorn)
+        Blog.objects.filter(id=blog.id).update(views=F("views") + 1)
 
     return render(request, "index.html", {"blog": blog})
 

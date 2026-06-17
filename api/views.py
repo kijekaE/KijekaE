@@ -1318,10 +1318,21 @@ def searchDatabase(request):
         category_results = []
         for category in categories:
             category_results.append([category.categoryName, category.categoryLink])
+
+        # Search in Blogs
+        blogs = Blog.objects.filter(
+            Q(title__icontains=searchQuery) |
+            Q(description__icontains=searchQuery)
+        ).filter(isActive=True, isApproved=True).distinct()[:5]
+        
+        blog_results = []
+        for blog in blogs:
+            blog_results.append([blog.title, blog.blogLink])
             
         result = {
             "products": product_results,
             "categories": category_results,
+            "blogs": blog_results,
         }
         return HttpResponse(
             json.dumps({"data": result}), content_type="application/json"
