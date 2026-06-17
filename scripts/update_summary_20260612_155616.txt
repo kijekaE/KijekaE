@@ -1,0 +1,4 @@
+Total CSV products processed: 218
+Total products updated: 218
+Total products skipped: 0
+Skipped product names:

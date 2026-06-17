@@ -1289,14 +1289,89 @@ def searchDatabase(request):
                 json.dumps({"data": {"products": [], "categories": []}}),
                 content_type="application/json",
             )
-        searchQuery = searchQuery.lower()
         
+        import re
+
+        def tokenize_text(text):
+            if not text:
+                return []
+            cleaned = re.sub(r'[\-\(\)\/\\,\.\_\+\[\]\{\}]', ' ', text.lower())
+            return [w for w in cleaned.split() if w]
+
+        def squash_text(text):
+            if not text:
+                return ""
+            return "".join(c for c in text.lower() if c.isalnum())
+
+        def words_match(qw, nw):
+            if qw == nw:
+                return True
+            if len(qw) >= 3 and len(nw) >= 3:
+                if qw.startswith(nw) or nw.startswith(qw):
+                    return True
+            return False
+
+        def get_match_score(query, name, description="", model_no=""):
+            q_words = tokenize_text(query)
+            if not q_words:
+                return 0
+                
+            n_words = tokenize_text(name)
+            q_squashed = squash_text(query)
+            n_squashed = squash_text(name)
+            
+            # Score 4: Exact/substring match of squashed query in squashed name
+            if q_squashed and n_squashed:
+                if q_squashed == n_squashed or q_squashed in n_squashed:
+                    return 4
+                    
+            # Score 3: All query words match candidate name words exactly
+            all_exact_match = True
+            for qw in q_words:
+                if qw not in n_words:
+                    all_exact_match = False
+                    break
+            if all_exact_match:
+                return 3
+                
+            # Score 2: All query words match candidate name words (via words_match prefix check)
+            all_prefix_match = True
+            for qw in q_words:
+                match_found = False
+                for nw in n_words:
+                    if words_match(qw, nw):
+                        match_found = True
+                        break
+                if not match_found:
+                    all_prefix_match = False
+                    break
+            if all_prefix_match:
+                return 2
+                
+            # Score 1: Matches in description or model number
+            desc_squashed = squash_text(description)
+            model_squashed = squash_text(model_no)
+            if q_squashed:
+                if (desc_squashed and q_squashed in desc_squashed) or (model_squashed and q_squashed in model_squashed):
+                    return 1
+                    
+            return 0
+
         # Search in Products
-        products = Product.objects.filter(
-            Q(productName__icontains=searchQuery) |
-            Q(description__icontains=searchQuery) |
-            Q(modelNo__icontains=searchQuery)
-        ).distinct()[:5]
+        scored_products = []
+        for product in Product.objects.all().select_related('category'):
+            score = get_match_score(
+                searchQuery, 
+                product.productName, 
+                product.description, 
+                product.modelNo or ""
+            )
+            if score > 0:
+                scored_products.append((score, product))
+        
+        # Sort by score desc, then by name len asc (shorter name = more specific match)
+        scored_products.sort(key=lambda x: (-x[0], len(x[1].productName)))
+        products = [p for _, p in scored_products[:5]]
         
         product_results = []
         for product in products:
@@ -1310,20 +1385,36 @@ def searchDatabase(request):
             )
             
         # Search in Categories
-        categories = Category.objects.filter(
-            Q(categoryName__icontains=searchQuery) |
-            Q(discription__icontains=searchQuery)
-        ).distinct()[:5]
+        scored_categories = []
+        for category in Category.objects.all():
+            score = get_match_score(
+                searchQuery, 
+                category.categoryName, 
+                category.discription
+            )
+            if score > 0:
+                scored_categories.append((score, category))
+        
+        scored_categories.sort(key=lambda x: (-x[0], len(x[1].categoryName)))
+        categories = [c for _, c in scored_categories[:5]]
         
         category_results = []
         for category in categories:
             category_results.append([category.categoryName, category.categoryLink])
 
         # Search in Blogs
-        blogs = Blog.objects.filter(
-            Q(title__icontains=searchQuery) |
-            Q(description__icontains=searchQuery)
-        ).filter(isActive=True, isApproved=True).distinct()[:5]
+        scored_blogs = []
+        for blog in Blog.objects.filter(isActive=True, isApproved=True):
+            score = get_match_score(
+                searchQuery, 
+                blog.title, 
+                blog.description
+            )
+            if score > 0:
+                scored_blogs.append((score, blog))
+                
+        scored_blogs.sort(key=lambda x: (-x[0], len(x[1].title)))
+        blogs = [b for _, b in scored_blogs[:5]]
         
         blog_results = []
         for blog in blogs:
