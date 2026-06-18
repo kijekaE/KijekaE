@@ -1738,6 +1738,8 @@ def imageSlider(request):
             content_type="application/json",
         )
     images = os.listdir("./media/images/slider")
+    # Filter out resized mobile copies (e.g. filenames with "-320", "-640", "-1024", etc.)
+    images = [img for img in images if os.path.isfile(os.path.join("./media/images/slider", img)) and not any(suffix in img for suffix in ["-320", "-640", "-1024", "-1600", "-205"])]
     for i in range(len(images)):
         images[i] = "/media/images/slider/" + images[i]
     if len(images) == 0:
