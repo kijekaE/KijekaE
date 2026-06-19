@@ -9,35 +9,70 @@ from . import views
 
 urlpatterns = (
     [
-        path(
-            "robots.txt/",
+        re_path(
+            r"^robots\.txt/?$",
             TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
         ),
-        path("Kijeka_Catalogue.pdf/", views.pdfCatalog, name="pdfCatalog"),
-        path(
-            "sitemap.xml/",
-            TemplateView.as_view(
-                template_name="sitemap.xml", content_type="application/xml"
-            ),
+        re_path(
+            r"^Kijeka_Catalogue\.pdf/?$",
+            views.pdfCatalog,
+            name="pdfCatalog",
+        ),
+        re_path(
+            r"^sitemap\.xml/?$",
+            views.dynamic_sitemap_view,
+            name="dynamic_sitemap",
         ),
         path("admin/", admin.site.urls),
         path("api/", include("api.urls")),
-        path("", TemplateView.as_view(template_name="index.html")),
-        path("careers/", TemplateView.as_view(template_name="index.html")),
-        path("about/", TemplateView.as_view(template_name="index.html")),
-        path("blog/", TemplateView.as_view(template_name="index.html")),
+        path("", views.home_view, name="home_view"),
+        path("careers/", views.careers_view, name="careers_view"),
+        path("about/", views.about_view, name="about_view"),
+        path("blog/", views.blog_list_view, name="blog_list_view"),
         path("blog/<str:link>/", views.blogDynamic, name="blogDynamic"),
-        path("contact/", TemplateView.as_view(template_name="index.html")),
+        path("contact/", views.contact_view, name="contact_view"),
         path(
             "career-details/<str:link>/",
-            TemplateView.as_view(template_name="index.html"),
+            views.generic_index_view,
+            {"title": "Career Details | Kijeka Engineers"},
+            name="career_details",
         ),
-        path("job-apply/<str:link>/", TemplateView.as_view(template_name="index.html")),
-        path("our-products/", TemplateView.as_view(template_name="index.html")),
-        path("product/<str:link>/", TemplateView.as_view(template_name="index.html")),
-        path("product-compare/", TemplateView.as_view(template_name="index.html")),
-        path("privacy-policy/", TemplateView.as_view(template_name="index.html")),
-        path("terms-and-condition/", TemplateView.as_view(template_name="index.html")),
+        path(
+            "job-apply/<str:link>/",
+            views.generic_index_view,
+            {"title": "Job Application | Kijeka Engineers"},
+            name="job_apply",
+        ),
+        path("our-products/", views.our_products_view, name="our_products_view"),
+        path("product/<str:link>/<str:city_slug>/", views.city_product_view, name="city_product_view"),
+        path("product/<str:link>/", views.product_detail_view, name="product_detail_view"),
+        path(
+            "product-compare/",
+            views.generic_index_view,
+            {"title": "Product Comparison | Kijeka Engineers"},
+            name="product_compare",
+        ),
+        path("privacy-policy/", views.privacy_policy_view, name="privacy_policy_view"),
+        path("terms-and-condition/", views.terms_and_condition_view, name="terms_and_condition_view"),
+        path("page-not-found/", views.page_not_found_view, name="page_not_found"),
+        path(
+            "add-to-inquiry/",
+            views.generic_index_view,
+            {"title": "Inquiry | Kijeka Engineers"},
+            name="add_to_inquiry",
+        ),
+        path(
+            "inquiry-form/",
+            views.generic_index_view,
+            {"title": "Inquiry Form | Kijeka Engineers"},
+            name="inquiry_form",
+        ),
+        path(
+            "ad/",
+            views.generic_index_view,
+            {"title": "Kijeka | Material Handling Equipment"},
+            name="ad_page",
+        ),
         path("dashboard/home/", views.dashboard, name="dashboard"),
         path("dashboard/login/", views.loginPage, name="loginPage"),
         path("dashboard/youtubevideos/", views.youtubevideos, name="youtubevideos"),
@@ -60,9 +95,10 @@ urlpatterns = (
         path("dashboard/careers/", views.careers, name="careers"),
         path(
             "<str:link>/<str:subLink>/",
-            TemplateView.as_view(template_name="index.html"),
+            views.subcategory_view,
+            name="subcategory_view",
         ),
-        path("<str:link>/", TemplateView.as_view(template_name="index.html")),
+        path("<str:link>/", views.category_view, name="category_view"),
     ]
     + [
         re_path(
@@ -72,4 +108,10 @@ urlpatterns = (
         )
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    + [
+        re_path(r"^(?P<path>[^.]+[^/])$", views.redirect_to_slash_view),
+        re_path(r"^.*$", views.page_not_found_view),
+    ]
 )
+
+handler404 = views.handler404
