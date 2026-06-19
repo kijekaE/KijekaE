@@ -14,6 +14,14 @@ urlpatterns = (
             TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
         ),
         re_path(
+            r"^llms\.txt/?$",
+            TemplateView.as_view(template_name="llms.txt", content_type="text/plain"),
+        ),
+        re_path(
+            r"^llm\.txt/?$",
+            TemplateView.as_view(template_name="llms.txt", content_type="text/plain"),
+        ),
+        re_path(
             r"^Kijeka_Catalogue\.pdf/?$",
             views.pdfCatalog,
             name="pdfCatalog",
