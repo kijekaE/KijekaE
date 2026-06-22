@@ -65,6 +65,7 @@ CITY_LOCATIONS = {
     "gurugram":    "Gurugram",
     "jaipur":      "Jaipur",
     "udaipur":     "Udaipur",
+    "delhi":       "Delhi",
     "gujarat":     "Gujarat",
     "maharashtra": "Maharashtra",
     "rajasthan":   "Rajasthan",
@@ -188,18 +189,18 @@ def city_product_view(request, link, city_slug):
         return page_not_found_view(request)
 
     product_name = product.productName
-    # Static city title — Google will index this exactly as shown
-    title = f"Buy {product_name} in {city_name} | Kijeka Engineers"
+    # Dynamic city title — Google will index this exactly as shown
+    title = f"{product_name} Manufacturers and Suppliers {city_name}, India"
     base_desc = product.metaDescription or product.description or ""
     base_desc = strip_tags(base_desc).strip()
     if base_desc and len(base_desc) > 20:
-        loc_prefix = f"Buy {product_name} in {city_name}. "
+        loc_prefix = f"Find {product_name} Manufacturers and Suppliers in {city_name}, India. "
         combined = loc_prefix + base_desc
         description = combined[:152] + "..." if len(combined) > 155 else combined
     else:
         description = (
-            f"Buy {product_name} in {city_name} from Kijeka Engineers \u2014 "
-            "India's trusted manufacturer of premium material handling equipment since 1980."
+            f"Find {product_name} Manufacturers and Suppliers in {city_name}, India. "
+            "Kijeka Engineers is India's trusted manufacturer of premium material handling equipment since 1980."
         )
     og_image = product.images.url if product.images else None
     product_schema = {
@@ -702,22 +703,21 @@ def product_detail_view(request, link):
         return page_not_found_view(request)
 
     product_name = product.productName
-    # Build localised title: "Buy {Product} in {City} | Kijeka Engineers"
-    title = f"Buy {product_name} in {city} | Kijeka Engineers"
+    # Build localised title
+    title = f"{product_name} Manufacturers and Suppliers {city}, India"
     # Build localised description
     base_desc = product.metaDescription or product.description or ""
     base_desc = strip_tags(base_desc).strip()
     if base_desc and len(base_desc) > 20:
-        # Prepend city context; truncate to stay within 155 chars after injection
-        loc_prefix = f"Buy {product_name} in {city}. "
+        loc_prefix = f"Find {product_name} Manufacturers and Suppliers in {city}, India. "
         combined = loc_prefix + base_desc
         if len(combined) > 155:
             combined = combined[:152] + "..."
         description = combined
     else:
         description = (
-            f"Buy {product_name} in {city} from Kijeka Engineers — "
-            "India's trusted manufacturer of premium material handling equipment since 1980."
+            f"Find {product_name} Manufacturers and Suppliers in {city}, India. "
+            "Kijeka Engineers is India's trusted manufacturer of premium material handling equipment since 1980."
         )
     og_image = product.images.url if product.images else None
     # Product schema (LocalBusiness + Product)
