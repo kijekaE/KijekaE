@@ -270,31 +270,31 @@ def inject_seo_meta(html_content, title, description, canonical_url=None, og_ima
         description = "KIJEKA ENGINEERS is a leading Indian material handling equipment manufacturer and supplier of high quality material handling products and industrial machinery equipment since 1980."
 
     seo_tags = []
-    seo_tags.append(f'<title>{title}</title>')
-    seo_tags.append(f'<meta name="title" content="{title}">')
-    seo_tags.append(f'<meta name="description" content="{description}">')
-    seo_tags.append(f'<meta property="og:title" content="{title}">')
-    seo_tags.append(f'<meta property="og:description" content="{description}">')
-    seo_tags.append('<meta property="og:type" content="website">')
+    seo_tags.append(f'<title data-rh="true">{title}</title>')
+    seo_tags.append(f'<meta name="title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta name="description" content="{description}" data-rh="true">')
+    seo_tags.append(f'<meta property="og:title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta property="og:description" content="{description}" data-rh="true">')
+    seo_tags.append('<meta property="og:type" content="website" data-rh="true">')
     
     if canonical_url:
-        seo_tags.append(f'<link rel="canonical" href="{canonical_url}">')
-        seo_tags.append(f'<meta property="og:url" content="{canonical_url}">')
+        seo_tags.append(f'<link rel="canonical" href="{canonical_url}" data-rh="true">')
+        seo_tags.append(f'<meta property="og:url" content="{canonical_url}" data-rh="true">')
         
     if og_image_url:
         if og_image_url.startswith('/'):
             og_image_url = "https://www.kijeka.com" + og_image_url
-        seo_tags.append(f'<meta property="og:image" content="{og_image_url}">')
+        seo_tags.append(f'<meta property="og:image" content="{og_image_url}" data-rh="true">')
     else:
-        seo_tags.append('<meta property="og:image" content="https://www.kijeka.com/static/images/KijekaLogo.webp">')
+        seo_tags.append('<meta property="og:image" content="https://www.kijeka.com/static/images/KijekaLogo.webp" data-rh="true">')
 
-    seo_tags.append('<meta name="twitter:card" content="summary_large_image">')
-    seo_tags.append(f'<meta name="twitter:title" content="{title}">')
-    seo_tags.append(f'<meta name="twitter:description" content="{description}">')
+    seo_tags.append('<meta name="twitter:card" content="summary_large_image" data-rh="true">')
+    seo_tags.append(f'<meta name="twitter:title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta name="twitter:description" content="{description}" data-rh="true">')
     if og_image_url:
         if og_image_url.startswith('/'):
             og_image_url = "https://www.kijeka.com" + og_image_url
-        seo_tags.append(f'<meta name="twitter:image" content="{og_image_url}">')
+        seo_tags.append(f'<meta name="twitter:image" content="{og_image_url}" data-rh="true">')
 
     if extra_schema_json:
         seo_tags.append(f'<script type="application/ld+json">{json.dumps(extra_schema_json)}</script>')
