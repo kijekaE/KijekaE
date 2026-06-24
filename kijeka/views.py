@@ -65,6 +65,7 @@ CITY_LOCATIONS = {
     "gurugram":    "Gurugram",
     "jaipur":      "Jaipur",
     "udaipur":     "Udaipur",
+    "delhi":       "Delhi",
     "gujarat":     "Gujarat",
     "maharashtra": "Maharashtra",
     "rajasthan":   "Rajasthan",
@@ -188,18 +189,18 @@ def city_product_view(request, link, city_slug):
         return page_not_found_view(request)
 
     product_name = product.productName
-    # Static city title — Google will index this exactly as shown
-    title = f"Buy {product_name} in {city_name} | Kijeka Engineers"
+    # Dynamic city title — Google will index this exactly as shown
+    title = f"{product_name} Manufacturers and Suppliers {city_name}, India"
     base_desc = product.metaDescription or product.description or ""
     base_desc = strip_tags(base_desc).strip()
     if base_desc and len(base_desc) > 20:
-        loc_prefix = f"Buy {product_name} in {city_name}. "
+        loc_prefix = f"Find {product_name} Manufacturers and Suppliers in {city_name}, India. "
         combined = loc_prefix + base_desc
         description = combined[:152] + "..." if len(combined) > 155 else combined
     else:
         description = (
-            f"Buy {product_name} in {city_name} from Kijeka Engineers \u2014 "
-            "India's trusted manufacturer of premium material handling equipment since 1980."
+            f"Find {product_name} Manufacturers and Suppliers in {city_name}, India. "
+            "Kijeka Engineers is India's trusted manufacturer of premium material handling equipment since 1980."
         )
     og_image = product.images.url if product.images else None
     product_schema = {
@@ -270,31 +271,31 @@ def inject_seo_meta(html_content, title, description, canonical_url=None, og_ima
         description = "KIJEKA ENGINEERS is a leading Indian material handling equipment manufacturer and supplier of high quality material handling products and industrial machinery equipment since 1980."
 
     seo_tags = []
-    seo_tags.append(f'<title>{title}</title>')
-    seo_tags.append(f'<meta name="title" content="{title}">')
-    seo_tags.append(f'<meta name="description" content="{description}">')
-    seo_tags.append(f'<meta property="og:title" content="{title}">')
-    seo_tags.append(f'<meta property="og:description" content="{description}">')
-    seo_tags.append('<meta property="og:type" content="website">')
+    seo_tags.append(f'<title data-rh="true">{title}</title>')
+    seo_tags.append(f'<meta name="title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta name="description" content="{description}" data-rh="true">')
+    seo_tags.append(f'<meta property="og:title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta property="og:description" content="{description}" data-rh="true">')
+    seo_tags.append('<meta property="og:type" content="website" data-rh="true">')
     
     if canonical_url:
-        seo_tags.append(f'<link rel="canonical" href="{canonical_url}">')
-        seo_tags.append(f'<meta property="og:url" content="{canonical_url}">')
+        seo_tags.append(f'<link rel="canonical" href="{canonical_url}" data-rh="true">')
+        seo_tags.append(f'<meta property="og:url" content="{canonical_url}" data-rh="true">')
         
     if og_image_url:
         if og_image_url.startswith('/'):
             og_image_url = "https://www.kijeka.com" + og_image_url
-        seo_tags.append(f'<meta property="og:image" content="{og_image_url}">')
+        seo_tags.append(f'<meta property="og:image" content="{og_image_url}" data-rh="true">')
     else:
-        seo_tags.append('<meta property="og:image" content="https://www.kijeka.com/static/images/KijekaLogo.webp">')
+        seo_tags.append('<meta property="og:image" content="https://www.kijeka.com/static/images/KijekaLogo.webp" data-rh="true">')
 
-    seo_tags.append('<meta name="twitter:card" content="summary_large_image">')
-    seo_tags.append(f'<meta name="twitter:title" content="{title}">')
-    seo_tags.append(f'<meta name="twitter:description" content="{description}">')
+    seo_tags.append('<meta name="twitter:card" content="summary_large_image" data-rh="true">')
+    seo_tags.append(f'<meta name="twitter:title" content="{title}" data-rh="true">')
+    seo_tags.append(f'<meta name="twitter:description" content="{description}" data-rh="true">')
     if og_image_url:
         if og_image_url.startswith('/'):
             og_image_url = "https://www.kijeka.com" + og_image_url
-        seo_tags.append(f'<meta name="twitter:image" content="{og_image_url}">')
+        seo_tags.append(f'<meta name="twitter:image" content="{og_image_url}" data-rh="true">')
 
     if extra_schema_json:
         seo_tags.append(f'<script type="application/ld+json">{json.dumps(extra_schema_json)}</script>')
@@ -702,22 +703,21 @@ def product_detail_view(request, link):
         return page_not_found_view(request)
 
     product_name = product.productName
-    # Build localised title: "Buy {Product} in {City} | Kijeka Engineers"
-    title = f"Buy {product_name} in {city} | Kijeka Engineers"
+    # Build localised title
+    title = f"{product_name} Manufacturers and Suppliers {city}, India"
     # Build localised description
     base_desc = product.metaDescription or product.description or ""
     base_desc = strip_tags(base_desc).strip()
     if base_desc and len(base_desc) > 20:
-        # Prepend city context; truncate to stay within 155 chars after injection
-        loc_prefix = f"Buy {product_name} in {city}. "
+        loc_prefix = f"Find {product_name} Manufacturers and Suppliers in {city}, India. "
         combined = loc_prefix + base_desc
         if len(combined) > 155:
             combined = combined[:152] + "..."
         description = combined
     else:
         description = (
-            f"Buy {product_name} in {city} from Kijeka Engineers — "
-            "India's trusted manufacturer of premium material handling equipment since 1980."
+            f"Find {product_name} Manufacturers and Suppliers in {city}, India. "
+            "Kijeka Engineers is India's trusted manufacturer of premium material handling equipment since 1980."
         )
     og_image = product.images.url if product.images else None
     # Product schema (LocalBusiness + Product)
