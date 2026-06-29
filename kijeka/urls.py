@@ -101,6 +101,7 @@ urlpatterns = (
         path("dashboard/contactdetails/", views.contactdetails, name="contactdetails"),
         path("dashboard/reachusform/", views.reachusform, name="reachusform"),
         path("dashboard/careers/", views.careers, name="careers"),
+        path("products/", views.redirect_to_our_products),
         path(
             "<str:link>/<str:subLink>/",
             views.subcategory_view,

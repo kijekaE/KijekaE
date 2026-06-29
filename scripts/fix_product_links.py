@@ -22,18 +22,17 @@ def fix_links():
     products = Product.objects.all()
     count = 0
     for p in products:
-        # If productLink is empty or suspicious, fix it
         slug = slugify(p.productName)
         if not p.productLink or p.productLink == "":
             print(f"Updating empty link for: {p.productName} -> {slug}")
             p.productLink = slug
             p.save()
             count += 1
-        elif p.productLink != slug:
-            # Check if current link is significantly different
-            # We don't want to break existing good links, but we want to ensure robustness
-            # For now, let's just log it
-            print(f"Current link: {p.productLink} | Suggested slug: {slug}")
+        elif p.productLink != slug or '(' in p.productLink or ')' in p.productLink:
+            print(f"Updating incorrect link for: {p.productName} | {p.productLink} -> {slug}")
+            p.productLink = slug
+            p.save()
+            count += 1
             
     print(f"Finished. Updated {count} products.")
 

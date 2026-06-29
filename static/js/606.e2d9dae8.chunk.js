@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkkijeka=self.webpackChunkkijeka||[]).push([[606],{1606:(e,i,k)=>{k.r(i),k.d(i,{Swiper:()=>p.t,SwiperSlide:()=>r.o,useSwiper:()=>s.oc,useSwiperSlide:()=>s.c6});var p=k(7534),r=k(5436),s=k(4728)}}]);
