@@ -2026,6 +2026,7 @@ def linksFecther(request):
 @csrf_exempt
 def addNewBlog(request):
     if request.method == "POST":
+        blog_id = request.POST.get("id")
         title = request.POST.get("title")
         description = request.POST.get("description")
         sources = request.POST.get("sources")
@@ -2033,11 +2034,18 @@ def addNewBlog(request):
         category = request.POST.get("category")
         categoryObj = Category.objects.filter(categoryName=category).first()
         image = request.FILES.get("image")
-        f = open("./media/images/blog/" + title + ".jpg", "wb")
-        f.write(image.read())
-        f.close()
         description = request.POST.get("edit")
-        blog = Blog()
+
+        if blog_id:
+            blog = Blog.objects.filter(id=blog_id).first()
+            if not blog:
+                return HttpResponse(
+                    json.dumps({"error": "Blog not found."}),
+                    content_type="application/json",
+                )
+        else:
+            blog = Blog()
+
         blog.title = title
         blog.description = description
         blog.blogLink = title.replace(" ", "-").replace("&", "and").lower()
@@ -2045,11 +2053,15 @@ def addNewBlog(request):
         blog.sources = sources
         blog.author = author
         blog.category = categoryObj
-        blog.image = image
+        if image:
+            f = open("./media/images/blog/" + title + ".jpg", "wb")
+            f.write(image.read())
+            f.close()
+            blog.image = image
         blog.isActive = True
-        blog.isApproved = False
-        blog.status = "draft"
-        blog.description = description
+        if not blog_id:
+            blog.isApproved = False
+            blog.status = "draft"
         blog.save()
         return HttpResponse(
             json.dumps({"data": "success"}), content_type="application/json"
