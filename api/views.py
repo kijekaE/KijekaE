@@ -38,6 +38,7 @@ from django.contrib.auth import authenticate, login, logout
 import csv
 from datetime import date
 from django.utils.html import strip_tags
+from django.utils.text import slugify
 
 
 def get_client_ip(request):
@@ -343,12 +344,7 @@ def addProduct(request):
                             categoryName=row["Category Name"]
                         ).first()
                         newProduct.modelNo = row["Model No"]
-                        newProduct.ProductLink = (
-                            row["Name"]
-                            .replace(" ", "-")
-                            .replace("--", "")
-                            .replace("---", "")
-                        )
+                        newProduct.productLink = slugify(row["Name"])
                         if str(row["Show On Home Page"]) == "True":
                             newProduct.isOnHome = True
                         else:
@@ -382,9 +378,7 @@ def addProduct(request):
                    newProduct.category = Category.objects.filter(categoryName=category).first()
                    newProduct.subCategory = SubCategory.objects.filter(subCategoryName=subCategory).first()
                    newProduct.modelNo = modelNo
-                   newProduct.productLink = (
-                    productName.replace(" ", "-").replace("--", "").replace("---", "")
-                   )
+                   newProduct.productLink = slugify(productName)
                    newProduct.isUploaded = True
                    try:
                      newProduct.ytLink = ytLink.split(
@@ -419,9 +413,7 @@ def addProduct(request):
                      newProduct.category = Category.objects.filter(categoryName=category).first()
                      newProduct.subCategory = None
                      newProduct.modelNo = modelNo
-                     newProduct.productLink = (
-                     productName.replace(" ", "-").replace("--", "").replace("---", "")
-                     )
+                     newProduct.productLink = slugify(productName)
                      newProduct.isUploaded = True
                      try:
                       newProduct.ytLink = ytLink.split(
@@ -595,8 +587,8 @@ def productList(request):
                    productArr.append(
                     [
                         product.productName,
-
                         "/media/images/" + (product.images.url).split("/")[-1],
+                        product.productLink,
                     ]
                 )
                 except:
@@ -863,6 +855,7 @@ def homeCategoryList(request):
                         liked,
                         stars,
                         starCount,
+                        product.productLink,
                     ]
                 )
             temp["categoryName"] = category.categoryName

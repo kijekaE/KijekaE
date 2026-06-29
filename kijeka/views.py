@@ -658,6 +658,10 @@ def contact_view(request):
     injected_html = inject_seo_meta(raw_html, title, description, canonical)
     return HttpResponse(injected_html, content_type="text/html")
 
+def redirect_to_our_products(request):
+    """301 Redirect /products/ to /our-products/ for SEO normalization."""
+    return redirect("/our-products/", permanent=True)
+
 def our_products_view(request):
     title = "Our Products | Kijeka Engineers"
     description = "Browse the extensive range of premium material handling equipment, scissor lifts, pallet trucks, cranes, drum equipments, and more by Kijeka Engineers."

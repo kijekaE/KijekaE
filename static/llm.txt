@@ -1,0 +1,30 @@
+# Kijeka Engineers Private Limited
+
+> India's premier B2B manufacturer and exporter of Material Handling Equipment (MHE) since 1980.
+
+## Overview
+Kijeka Engineers Private Limited, headquartered in Ahmedabad, Gujarat, India, designs, manufactures, and exports premium material handling equipment, custom warehouse solutions, lifting accessories, and specialized B2B handling machines.
+
+## Core Navigation Pages
+- [Home Page](https://www.kijeka.com/): General overview of products, clients, capabilities, and video showcases.
+- [About Us](https://www.kijeka.com/about): Corporate history, Mr. Rameshchandra's vision (est. 1980), and certificate profiles.
+- [Products Catalog](https://www.kijeka.com/our-products): Comprehensive inventory of all handling products by category.
+- [Careers](https://www.kijeka.com/careers): Active job requisition list and application forms.
+- [Contact Us](https://www.kijeka.com/contact): Address, customer care number, map location, and general contact form.
+- [Inquiry Page](https://www.kijeka.com/add-to-inquiry): Request custom quotes and orders.
+
+## Product Categories
+- [Aerial Work Platforms](https://www.kijeka.com/aerial-work-platform): Double mast and single mast aerial lifts.
+- [Aluminium Ladders](https://www.kijeka.com/aluminium-ladders): Staircases, extension, step, and tower ladders.
+- [Chemical Pumps & Accessories](https://www.kijeka.com/chemical-pumps-acces): AODD, gear, plunger, and electric IBC drum pumps.
+- [Cranes & Lifting Accessories](https://www.kijeka.com/cranes-lifting-accessories): Wire rope hoists, EOT cranes, and forklift mounted accessories.
+- [Dock Levellers & Ramp](https://www.kijeka.com/dock-levellers-dock-ramp): B2B dock levelers and portable yard ramps.
+- [Drum Equipments](https://www.kijeka.com/drum-equipments): Lifters, tilters, dollies, storage racks, and trucks.
+- [Lifts & Scissor Platforms](https://www.kijeka.com/hydraulic-scissor-lift-platform): Scissor lift tables, goods lifts, and self-propelled platforms.
+- [Pallet Trucks](https://www.kijeka.com/pallet-trucks): Hydraulic hand, electric, high-lift, and customized pallet trucks.
+- [Wheels, Casters & Springs](https://www.kijeka.com/wheels-casters): Polyurethane traction wheels, casters, and rebonding services.
+
+## Developer & AI Crawler API Feeds (JSON)
+- [Categories API](https://www.kijeka.com/api/categorySideBar/): Returns full nested category list.
+- [Product List API](https://www.kijeka.com/api/productList/): Basic list of all product links.
+- [Blog Data API](https://www.kijeka.com/api/blogdata/): General blog posts metadata.
